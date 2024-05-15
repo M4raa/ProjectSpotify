@@ -14,5 +14,4 @@ public class Main {
                 .web(WebApplicationType.NONE)
                 .run(args);
     }
-
 }

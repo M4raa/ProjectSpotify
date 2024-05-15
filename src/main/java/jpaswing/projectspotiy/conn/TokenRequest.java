@@ -1,6 +1,5 @@
 package jpaswing.projectspotiy.conn;
 
-import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,14 +10,16 @@ import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import org.json.*;
 
-@Component
-public class tokenRequest {
-    public static void main(String[] args) throws IOException {
+public class TokenRequest {
+//    public static void main(String[] args) throws IOException {
+//        final String client_id= "3997a7d851b941d9bd66c90548816d04";
+//        final String client_secret= "621de2aa072547bf98e46269daa0f062";
+//        getToken(client_id,client_secret);
+//    }
+
+    public void getToken(/*String client_id, String client_secret*/) throws IOException {
         final String client_id= "3997a7d851b941d9bd66c90548816d04";
         final String client_secret= "621de2aa072547bf98e46269daa0f062";
-        getToken(client_id,client_secret);
-    }
-    public static void getToken(String client_id, String client_secret) throws IOException {
         String auth_string = client_id + ":" + client_secret;
         byte[] auth_bytes = auth_string.getBytes(StandardCharsets.UTF_8);
         String auth_base64 = Base64.getEncoder().encodeToString(auth_bytes);

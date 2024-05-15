@@ -1,8 +1,8 @@
 package jpaswing.projectspotiy.controller;
 
+import jpaswing.projectspotiy.conn.TokenRequest;
 import org.springframework.stereotype.Component;
 
-@Component
-public class SpotifyController {
+public class SpotifyController{
 
 }

@@ -11,8 +11,8 @@ import java.awt.*;
 public class MainCL implements CommandLineRunner {
     private SpotifyController spotifyController;
     @Autowired
-    public MainCL(SpotifyController spotifyControlle) {
-        this.spotifyController = spotifyControlle;
+    public MainCL(SpotifyController spotifyController) {
+        this.spotifyController = spotifyController;
     }
     @Override
     public void run(String... args) throws Exception {
