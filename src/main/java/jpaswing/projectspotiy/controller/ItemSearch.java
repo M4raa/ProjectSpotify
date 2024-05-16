@@ -4,25 +4,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import jpaswing.projectspotiy.conn.Authorization;
 import jpaswing.projectspotiy.conn.JsonConverter;
-import jpaswing.projectspotiy.conn.TokenRequest;
-import jpaswing.projectspotiy.entity.Artist;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 
 @Component
 public class ItemSearch {
-    public static Artist artistSearch() throws IOException {
+    public static String artistIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter artist name: ");
         String artistName = sc.nextLine();
@@ -50,9 +43,14 @@ public class ItemSearch {
             // Close con
             conn.disconnect();
             JsonObject jsonObject = JsonParser.parseString(json.toString()).getAsJsonObject();
-            Artist artist = JsonConverter.artistConverter(jsonObject);
-            return artist;
+            //ID return
+            String id = JsonConverter.artistConverter(jsonObject);
+            if (id==null){
+                return "That artist does not exist";
+            } return id;
         }
     }
-
+//    public static String artistNameSearch() throws IOException {
+//
+//    }
 }
