@@ -1,30 +1,54 @@
 package jpaswing.projectspotiy.conn;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
+import java.util.Properties;
+
 import org.json.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TokenRequest {
-//    public static void main(String[] args) throws IOException {
-//        final String client_id= "3997a7d851b941d9bd66c90548816d04";
-//        final String client_secret= "621de2aa072547bf98e46269daa0f062";
-//        getToken(client_id,client_secret);
-//    }
+    static String client_id = "";
+    static String client_secret = "";
 
-    public void getToken(/*String client_id, String client_secret*/) throws IOException {
-        final String client_id= "3997a7d851b941d9bd66c90548816d04";
-        final String client_secret= "621de2aa072547bf98e46269daa0f062";
+    public static void getCred() throws IOException {
+        InputStream is = getFileFromResourceAsStream("application.properties");
+        Properties prop = new Properties();
+
+        // load a properties file
+        prop.load(is);
+
+        // get the property value and print it out
+        client_id = prop.getProperty("spotify.client_id");
+        client_secret = prop.getProperty("spotify.client_secret");
+    }
+
+    private static InputStream getFileFromResourceAsStream(String fileName) {
+
+        // The class loader that loaded the class
+        ClassLoader classLoader = TokenRequest.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
+
+    }
+
+    public static String getToken() throws IOException {
+        getCred();
         String auth_string = client_id + ":" + client_secret;
         byte[] auth_bytes = auth_string.getBytes(StandardCharsets.UTF_8);
         String auth_base64 = Base64.getEncoder().encodeToString(auth_bytes);
         String apiUrl = "https://accounts.spotify.com/api/token";
-        String token=null;
+        String token = null;
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
@@ -51,13 +75,10 @@ public class TokenRequest {
                 // Extract access_token
                 token = json.getString("access_token");
             }
-            System.out.println("Successfull!");
-            System.out.println("Extracting token from response...");
-
-            System.out.println("Token: " + token);
+            System.out.println("Token request succsesfull!\n");
+            // Close con
+            conn.disconnect();
+            return token;
         }
-
-        // Close con
-        conn.disconnect();
     }
 }

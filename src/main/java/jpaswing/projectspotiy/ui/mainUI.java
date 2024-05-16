@@ -1,5 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
+import jpaswing.projectspotiy.conn.JsonConverter;
+import jpaswing.projectspotiy.conn.TokenRequest;
 import jpaswing.projectspotiy.controller.SpotifyController;
 import javax.swing.*;
 
@@ -12,7 +14,11 @@ public class mainUI  extends JFrame {
     private JButton btnNext;
     private JButton btnLast;
     private SpotifyController spotifyController;
-    public mainUI(SpotifyController spotifyController)  {
+    private TokenRequest tokenRequest;
+    private JsonConverter jsonConverter;
+    public mainUI(TokenRequest tokenRequest, JsonConverter jsonConverter)  {
+        this.tokenRequest = tokenRequest;
+        this.jsonConverter = jsonConverter;
         setTitle("Notas Alumnos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300,300);

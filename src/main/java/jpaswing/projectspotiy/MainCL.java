@@ -1,5 +1,7 @@
 package jpaswing.projectspotiy;
 
+import jpaswing.projectspotiy.conn.JsonConverter;
+import jpaswing.projectspotiy.conn.TokenRequest;
 import jpaswing.projectspotiy.controller.SpotifyController;
 import jpaswing.projectspotiy.ui.mainUI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +11,15 @@ import java.awt.*;
 
 
 public class MainCL implements CommandLineRunner {
-    private SpotifyController spotifyController;
+    private TokenRequest tokenRequest;
+    private JsonConverter jsonConverter;
     @Autowired
-    public MainCL(SpotifyController spotifyController) {
-        this.spotifyController = spotifyController;
+    public MainCL(TokenRequest tokenRequest, JsonConverter jsonConverter) {
+        this.tokenRequest = tokenRequest;
+        this.jsonConverter = jsonConverter;
     }
     @Override
     public void run(String... args) throws Exception {
-        EventQueue.invokeLater(()  ->  new mainUI(spotifyController).setVisible(true));
+        EventQueue.invokeLater(()  ->  new mainUI(tokenRequest,jsonConverter).setVisible(true));
     }
 }
