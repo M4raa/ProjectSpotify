@@ -1,4 +1,4 @@
-package jpaswing.projectspotiy.entity.varios;
+package jpaswing.projectspotiy.entityContent.entity.several;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,6 +1,7 @@
-package jpaswing.projectspotiy;
+package jpaswing.projectspotiy.app;
 
-import jpaswing.projectspotiy.controller.ItemSearch;
+import jpaswing.projectspotiy.controller.AlbumController;
+import jpaswing.projectspotiy.controller.ArtistsController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ public class Main {
                 .headless(false)
                 .web(WebApplicationType.NONE)
                 .run(args);*/
-        System.out.println(ItemSearch.artistIdSearch());
+        System.out.println(ArtistsController.artistSearch().getName());
+        System.out.println(AlbumController.albumSearch().getArtists().getFirst().getName());
     }
 }

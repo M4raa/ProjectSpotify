@@ -1,4 +1,4 @@
-package jpaswing.projectspotiy.conn;
+package jpaswing.projectspotiy.service;
 
 import org.json.JSONObject;
 import java.io.IOException;

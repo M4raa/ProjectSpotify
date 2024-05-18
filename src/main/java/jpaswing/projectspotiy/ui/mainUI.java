@@ -1,8 +1,8 @@
 package jpaswing.projectspotiy.ui;
 
-import jpaswing.projectspotiy.conn.JsonConverter;
-import jpaswing.projectspotiy.conn.TokenRequest;
-import jpaswing.projectspotiy.controller.SpotifyController;
+import jpaswing.projectspotiy.utilities.JsonConverter;
+import jpaswing.projectspotiy.service.TokenRequest;
+
 import javax.swing.*;
 
 public class mainUI  extends JFrame {
@@ -13,7 +13,6 @@ public class mainUI  extends JFrame {
     private JButton btnPrevious;
     private JButton btnNext;
     private JButton btnLast;
-    private SpotifyController spotifyController;
     private TokenRequest tokenRequest;
     private JsonConverter jsonConverter;
     public mainUI(TokenRequest tokenRequest, JsonConverter jsonConverter)  {

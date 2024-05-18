@@ -1,8 +1,7 @@
-package jpaswing.projectspotiy;
+package jpaswing.projectspotiy.app;
 
-import jpaswing.projectspotiy.conn.JsonConverter;
-import jpaswing.projectspotiy.conn.TokenRequest;
-import jpaswing.projectspotiy.controller.SpotifyController;
+import jpaswing.projectspotiy.utilities.JsonConverter;
+import jpaswing.projectspotiy.service.TokenRequest;
 import jpaswing.projectspotiy.ui.mainUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

@@ -1,17 +1,15 @@
 package jpaswing.projectspotiy.controller;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import jpaswing.projectspotiy.conn.Authorization;
-import jpaswing.projectspotiy.conn.JsonConverter;
+import jpaswing.projectspotiy.utilities.JsonConverter;
+import jpaswing.projectspotiy.service.UrlConnection;
+import jpaswing.projectspotiy.entityContent.entity.Album;
+import jpaswing.projectspotiy.entityContent.entity.Artist;
 import org.springframework.stereotype.Component;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
 
 @Component
 public class ItemSearch {
@@ -20,37 +18,53 @@ public class ItemSearch {
         System.out.println("Enter artist name: ");
         String artistName = sc.nextLine();
         String apiUrl = "https://api.spotify.com/v1/search";
-        String bearer = Authorization.getBearer();
         String query = "?q=" + artistName + "&type=artist&limit=1";
         String uri = apiUrl + query;
         URL url = new URL(uri);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
-        conn.setRequestProperty("Authorization",bearer);
-        // Response code
-        int responseCode = conn.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
-
-        // Read response
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-            String line="";
-            StringBuilder json = new StringBuilder();
-            json.append(line);
-            while ((line = reader.readLine()) != null) {
-                json.append(line);
-            }
-            // Close con
-            conn.disconnect();
-            JsonObject jsonObject = JsonParser.parseString(json.toString()).getAsJsonObject();
+        JsonObject jsonObject = UrlConnection.getUrlConnection(uri);
+        //ID return
+        String id = JsonConverter.artistIdConverter(jsonObject);
+        if (id==null){
+            return "That artist does not exist";
+        } return id;
+        }
+    public static Artist artistSearch() throws IOException {
+        String id = artistIdSearch();
+        Artist artist;
+        String apiUrl = "https://api.spotify.com/v1/artists/";
+        String query = id;
+        String uri = apiUrl + query;
+        JsonObject jsonObject = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        artist = gson.fromJson(jsonObject, Artist.class);
+        return artist;
+    }
+    public static String albumIdSearch() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter album name: ");
+        String albumName = sc.nextLine();
+        String apiUrl = "https://api.spotify.com/v1/search";
+        String query = "?q=" + albumName + "&type=album&limit=1";
+        String uri = apiUrl + query;
+        JsonObject jsonObject = UrlConnection.getUrlConnection(uri);
             //ID return
-            String id = JsonConverter.artistConverter(jsonObject);
+            String id = JsonConverter.albumIdConverter(jsonObject);
             if (id==null){
-                return "That artist does not exist";
+                return "That album does not exist";
             } return id;
         }
-    }
-//    public static String artistNameSearch() throws IOException {
-//
-//    }
+    public static Album albumSearch() throws IOException {
+        String id = albumIdSearch();
+        Album album;
+        String apiUrl = "https://api.spotify.com/v1/albums/";
+        String query = id;
+        String uri = apiUrl + query;
+        JsonObject jsonObject = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        album = gson.fromJson(jsonObject, Album.class);
+        return album;
+        }
 }
+
+
+

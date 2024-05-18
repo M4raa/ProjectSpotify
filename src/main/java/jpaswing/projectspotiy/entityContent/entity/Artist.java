@@ -1,9 +1,9 @@
-package jpaswing.projectspotiy.entity;
+package jpaswing.projectspotiy.entityContent.entity;
 
 import com.google.gson.annotations.SerializedName;
-import jpaswing.projectspotiy.entity.varios.ExternalUrls;
-import jpaswing.projectspotiy.entity.varios.Followers;
-import jpaswing.projectspotiy.entity.varios.Image;
+import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
+import jpaswing.projectspotiy.entityContent.entity.several.Followers;
+import jpaswing.projectspotiy.entityContent.entity.several.Image;
 
 import java.util.List;
 

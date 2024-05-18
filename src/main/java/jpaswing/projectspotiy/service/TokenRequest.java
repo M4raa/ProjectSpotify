@@ -1,4 +1,4 @@
-package jpaswing.projectspotiy.conn;
+package jpaswing.projectspotiy.service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -8,8 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import org.json.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TokenRequest {
     static String client_id = "";
@@ -64,7 +62,6 @@ public class TokenRequest {
 
         // Response code
         int responseCode = conn.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
 
         // Read response
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
@@ -75,7 +72,6 @@ public class TokenRequest {
                 // Extract access_token
                 token = json.getString("access_token");
             }
-            System.out.println("Token request succsesfull!\n");
             // Close con
             conn.disconnect();
             return token;

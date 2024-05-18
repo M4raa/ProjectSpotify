@@ -1,17 +1,14 @@
-package jpaswing.projectspotiy.entity;
+package jpaswing.projectspotiy.entityContent.SpotifyResponse;
+
 import com.google.gson.annotations.SerializedName;
+import jpaswing.projectspotiy.entityContent.entity.Album;
+
 import java.util.List;
 
-public class ArtistIdSearch {
-
-
-
-    public static class Artists {
+public class AlbumIdSearch {
+    public static class Albums {
         @SerializedName("href")
         private String href;
-
-        @SerializedName("items")
-        private List<Artist> items;
 
         @SerializedName("limit")
         private int limit;
@@ -28,21 +25,17 @@ public class ArtistIdSearch {
         @SerializedName("total")
         private int total;
 
+        @SerializedName("items")
+        private List<Album> items;
+
         // Getters and Setters
+
         public String getHref() {
             return href;
         }
 
         public void setHref(String href) {
             this.href = href;
-        }
-
-        public List<Artist> getItems() {
-            return items;
-        }
-
-        public void setItems(List<Artist> items) {
-            this.items = items;
         }
 
         public int getLimit() {
@@ -84,17 +77,25 @@ public class ArtistIdSearch {
         public void setTotal(int total) {
             this.total = total;
         }
-    }
 
-    @SerializedName("artists")
-    private Artists artists;
+        public List<Album> getItems() {
+            return items;
+        }
+
+        public void setItems(List<Album> items) {
+        this.items = items;
+    }
+    }
+    @SerializedName("albums")
+    private Albums albums;
 
     // Getters and Setters
-    public Artists getArtists() {
-        return artists;
+    public Albums getAlbums() {
+        return albums;
     }
 
-    public void setArtists(Artists artists) {
-        this.artists = artists;
+    public void setAlbums(Albums albums) {
+        this.albums = albums;
     }
 }
+
