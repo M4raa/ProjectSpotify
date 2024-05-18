@@ -1,6 +1,8 @@
 package jpaswing.projectspotiy.entityContent.entity;
 
 import com.google.gson.annotations.SerializedName;
+import jpaswing.projectspotiy.entityContent.entity.several.Copyright;
+import jpaswing.projectspotiy.entityContent.entity.several.ExternalIds;
 import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
 import org.hibernate.sql.Restriction;
@@ -229,67 +231,5 @@ public class Album {
 
     public void setPopularity(int popularity) {
         this.popularity = popularity;
-    }
-
-    // Inner classes
-    public static class Copyright {
-        @SerializedName("text")
-        private String text;
-
-        @SerializedName("type")
-        private String type;
-
-        // Getters and Setters
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-    }
-
-    public static class ExternalIds {
-        @SerializedName("isrc")
-        private String isrc;
-
-        @SerializedName("ean")
-        private String ean;
-
-        @SerializedName("upc")
-        private String upc;
-
-        // Getters and Setters
-        public String getIsrc() {
-            return isrc;
-        }
-
-        public void setIsrc(String isrc) {
-            this.isrc = isrc;
-        }
-
-        public String getEan() {
-            return ean;
-        }
-
-        public void setEan(String ean) {
-            this.ean = ean;
-        }
-
-        public String getUpc() {
-            return upc;
-        }
-
-        public void setUpc(String upc) {
-            this.upc = upc;
-        }
     }
 }

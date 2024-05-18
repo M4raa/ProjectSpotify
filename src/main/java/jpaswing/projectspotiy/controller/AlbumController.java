@@ -37,10 +37,6 @@ public class AlbumController {
         album = gson.fromJson(jsonObject, Album.class);
         return album;
     }
-
-    public static void main(String[] args) throws IOException {
-        albumSearch();
-    }
 }
 
 
