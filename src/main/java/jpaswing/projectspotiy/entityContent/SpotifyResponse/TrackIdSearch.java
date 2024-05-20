@@ -27,6 +27,19 @@ public class TrackIdSearch {
 
         @SerializedName("items")
         private List<Track> items;
+        //Construtor
+        public Tracks(){}
+
+        public Tracks(String href, int limit, String next, int offset, String previous, int total, List<Track> items) {
+            this.href = href;
+            this.limit = limit;
+            this.next = next;
+            this.offset = offset;
+            this.previous = previous;
+            this.total = total;
+            this.items = items;
+        }
+
 
         // Getters and Setters
 
@@ -88,6 +101,13 @@ public class TrackIdSearch {
     }
     @SerializedName("tracks")
     private Tracks tracks;
+
+    //Constructor
+    public TrackIdSearch(){}
+
+    public TrackIdSearch(Tracks tracks) {
+        this.tracks = tracks;
+    }
 
     // Getters and Setters
     public Tracks getTracks() {
