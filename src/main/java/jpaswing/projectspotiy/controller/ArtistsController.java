@@ -8,11 +8,12 @@ import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class ArtistsController {
-    public static String artistIdSearch() throws IOException {
+   /* public static String artistIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter artist name: ");
         String artistName = NameConverter.spaceEraser(sc.nextLine());
@@ -36,5 +37,5 @@ public class ArtistsController {
         Gson gson = new Gson();
         artist = gson.fromJson(jsonObject, Artist.class);
         return artist;
-    }
+    }*/
 }

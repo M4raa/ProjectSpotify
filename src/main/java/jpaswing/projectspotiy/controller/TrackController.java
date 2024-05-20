@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 @Component
 public class TrackController {
-    public static String trackIdSearch() throws IOException {
+    /*public static String trackIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter track name: ");
         String trackName = NameConverter.spaceEraser(sc.nextLine());
@@ -36,5 +36,5 @@ public class TrackController {
         Gson gson = new Gson();
         track = gson.fromJson(jsonObject, Track.class);
         return track;
-    }
+    }*/
 }

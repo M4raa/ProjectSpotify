@@ -24,4 +24,9 @@ public class JsonConverter {
         TrackIdSearch track = gson.fromJson(jsonObject.getAsJsonObject(), TrackIdSearch.class);
         return track.getTracks().getItems().getFirst().getId();
     }
+    /*public static String nextArtist(JsonObject jsonObject) throws IOException {
+        Gson gson = new Gson();
+        ArtistIdSearch artist = gson.fromJson(jsonObject.getAsJsonObject(), ArtistIdSearch.class);
+        return artist.getArtists().getNext();
+    }*/
 }

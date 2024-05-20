@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 @Component
 public class AlbumController {
-    public static String albumIdSearch() throws IOException {
+    /*public static String albumIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter album name: ");
         String albumName = NameConverter.spaceEraser(sc.nextLine());
@@ -36,7 +36,7 @@ public class AlbumController {
         Gson gson = new Gson();
         album = gson.fromJson(jsonObject, Album.class);
         return album;
-    }
+    }*/
 }
 
 
