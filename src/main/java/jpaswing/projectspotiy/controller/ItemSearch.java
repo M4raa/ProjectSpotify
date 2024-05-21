@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 @Component
 public class ItemSearch {
-    public static String artistIdSearch() throws IOException {
+    /*public static String artistIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter artist name: ");
         String artistName = sc.nextLine();
@@ -63,7 +63,7 @@ public class ItemSearch {
         Gson gson = new Gson();
         album = gson.fromJson(jsonObject, Album.class);
         return album;
-        }
+        }*/
 }
 
 

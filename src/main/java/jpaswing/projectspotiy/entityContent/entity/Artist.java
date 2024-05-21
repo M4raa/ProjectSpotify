@@ -38,6 +38,22 @@ public  class Artist {
     @SerializedName("uri")
     private String uri;
 
+    //Constructor
+    public Artist() {}
+
+    public Artist(ExternalUrls externalUrls, Followers followers, List<String> genres, String href, String id, List<Image> images, String name, int popularity, String type, String uri) {
+        this.externalUrls = externalUrls;
+        this.followers = followers;
+        this.genres = genres;
+        this.href = href;
+        this.id = id;
+        this.images = images;
+        this.name = name;
+        this.popularity = popularity;
+        this.type = type;
+        this.uri = uri;
+    }
+
     // Getters and Setters
     public ExternalUrls getExternalUrls() {
         return externalUrls;
