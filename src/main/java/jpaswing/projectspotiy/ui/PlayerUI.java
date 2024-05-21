@@ -7,6 +7,7 @@ import jpaswing.projectspotiy.repository.PlaylistRepo;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -27,29 +28,28 @@ public class PlayerUI extends JFrame {
 
     private void initUI() {
         setTitle("PLAYER");
-        setSize(400, 100);
+        setSize(800, 150);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         reproductorPanel = new JPanel();
+        reproductorPanel.setBackground(Color.BLACK); // Establece el color de fondo negro
+        reproductorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         initButtons();
 
-        reproductorPanel.add(reproduce);
         reproductorPanel.add(previousSong);
+        reproductorPanel.add(reproduce);
         reproductorPanel.add(nextSong);
 
         add(reproductorPanel);
     }
 
     private void initButtons() {
-        reproduce = new JButton("play");
-        nextSong = new JButton(">>");
-        previousSong = new JButton("<<");
+        previousSong = createButton("src/main/resources/icons/previous.png");
+        reproduce = createButton("src/main/resources/icons/play.png");
+        nextSong = createButton("src/main/resources/icons/next.png");
 
-        btnReproduce = new ImageIcon(getClass().getResource("src/main/resources/icons/play.png"));
-        reproduce.setIcon(btnReproduce);
         reproduce.setEnabled(true);
-
         reproduce.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +57,7 @@ public class PlayerUI extends JFrame {
                     clip.stop();
                     clip.close();
                 } else {
-                    String previewUrl = "https://p.scdn.co/mp3-preview/example.mp3"; // Example URL, replace with actual track URL
+                    String previewUrl = "https://p.scdn.co/mp3-preview/example.mp3";
                     try {
                         playAudio(previewUrl);
                     } catch (Exception ex) {
@@ -66,12 +66,19 @@ public class PlayerUI extends JFrame {
                 }
             }
         });
+    }
 
-        btnNext = new ImageIcon(getClass().getResource("src/main/resources/icons/next.png"));
-        nextSong.setIcon(btnNext);
-
-        btnPrevious = new ImageIcon(getClass().getResource("src/main/resources/icons/previous.png"));
-        previousSong.setIcon(btnPrevious);
+    private JButton createButton(String iconPath) {
+        JButton button = new JButton();
+        ImageIcon icon = new ImageIcon(iconPath);
+        button.setIcon(icon);
+        button.setPreferredSize(new Dimension(50, 50));
+        button.setBackground(Color.BLACK);
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+        return button;
     }
 
     private void playAudio(String audioUrl) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
