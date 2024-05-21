@@ -46,7 +46,7 @@ public class PlayerUI extends JFrame {
         nextSong = new JButton(">>");
         previousSong = new JButton("<<");
 
-        btnReproduce = new ImageIcon(getClass().getResource("ruta_imagen"));
+        btnReproduce = new ImageIcon(getClass().getResource("src/main/resources/icons/play.png"));
         reproduce.setIcon(btnReproduce);
         reproduce.setEnabled(true);
 
@@ -67,10 +67,10 @@ public class PlayerUI extends JFrame {
             }
         });
 
-        btnNext = new ImageIcon(getClass().getResource("ruta_imagen"));
+        btnNext = new ImageIcon(getClass().getResource("src/main/resources/icons/next.png"));
         nextSong.setIcon(btnNext);
 
-        btnPrevious = new ImageIcon(getClass().getResource("ruta_imagen"));
+        btnPrevious = new ImageIcon(getClass().getResource("src/main/resources/icons/previous.png"));
         previousSong.setIcon(btnPrevious);
     }
 
