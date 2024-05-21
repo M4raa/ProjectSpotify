@@ -11,6 +11,7 @@ import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.entityContent.entity.Album;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -30,19 +31,19 @@ public class AlbumController {
         //ID return
         return JsonConverter.albumIdConverter(albums);
     }
-    public static Album albumSearch() throws IOException {
+    public static List<Album> albumSearch() throws IOException {
+        List<Album> albums = new ArrayList<>();
         String id = albumIdSearch();
-        Album album;
         String apiUrl = "https://api.spotify.com/v1/albums/";
         String query = id;
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();
-        List<Artist> artistList = Collections.singletonList(gson.fromJson(js, Artist.class));
-        for (Artist artist : artistList) {
-            artists.add(artist);
+        List<Album> albumList = Collections.singletonList(gson.fromJson(js, Album.class));
+        for (Album album : albumList) {
+            albums.add(album);
         }
-        return artists;
+        return albums;
     }
 }
 

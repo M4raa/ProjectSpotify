@@ -25,8 +25,8 @@ public class AlbumIdSearch {
         @SerializedName("total")
         private int total;
 
-        @SerializedName("items")
-        private List<Album> items;
+        @SerializedName("albums")
+        private List<Album> albums;
 
         // Getters and Setters
 
@@ -78,12 +78,12 @@ public class AlbumIdSearch {
             this.total = total;
         }
 
-        public List<Album> getItems() {
-            return items;
+        public List<Album> getAlbums() {
+            return albums;
         }
 
-        public void setItems(List<Album> items) {
-        this.items = items;
+        public void setAlbums(List<Album> albums) {
+        this.albums = albums;
     }
     }
     @SerializedName("albums")
