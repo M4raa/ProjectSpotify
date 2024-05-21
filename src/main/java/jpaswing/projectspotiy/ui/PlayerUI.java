@@ -24,10 +24,11 @@ public class PlayerUI extends JFrame {
     private Clip clip;
     private JSlider barraRepro;
     private JLabel etiqueta = new JLabel();
-    private Track track;
+    private String url;
 
-    public PlayerUI() {
+    public PlayerUI(String url) {
         initUI();
+        this.url = url;
     }
 
     private void initUI() {
@@ -61,8 +62,8 @@ public class PlayerUI extends JFrame {
                     clip.stop();
                     clip.close();
                 } else {
-                    trackSearch();
-                    String previewUrl = track.getPreviewUrl();
+
+                    String previewUrl = url;
                     try {
                         playAudio(previewUrl);
                     } catch (Exception ex) {
@@ -94,11 +95,17 @@ public class PlayerUI extends JFrame {
         clip.start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                PlayerUI playerUI = new PlayerUI();
+                String url;
+                try {
+                   url = TrackController.trackSearch().getFirst().getPreviewUrl();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                PlayerUI playerUI = new PlayerUI(url);
                 playerUI.setVisible(true);
             }
         });
