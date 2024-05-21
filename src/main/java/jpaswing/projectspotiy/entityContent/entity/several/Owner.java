@@ -80,3 +80,4 @@ public class Owner {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+}
