@@ -25,9 +25,21 @@ public class AlbumIdSearch {
         @SerializedName("total")
         private int total;
 
-        @SerializedName("albums")
-        private List<Album> albums;
+        @SerializedName("items")
+        private List<Album> items;
 
+        //Constructor
+        public Albums(){}
+
+        public Albums(String href, int limit, String next, int offset, String previous, int total, List<Album> items) {
+            this.href = href;
+            this.limit = limit;
+            this.next = next;
+            this.offset = offset;
+            this.previous = previous;
+            this.total = total;
+            this.items = items;
+        }
         // Getters and Setters
 
         public String getHref() {
@@ -79,11 +91,11 @@ public class AlbumIdSearch {
         }
 
         public List<Album> getAlbums() {
-            return albums;
+            return items;
         }
 
-        public void setAlbums(List<Album> albums) {
-        this.albums = albums;
+        public void setAlbums(List<Album> items) {
+        this.items = items;
     }
     }
     @SerializedName("albums")

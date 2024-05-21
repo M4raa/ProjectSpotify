@@ -25,19 +25,19 @@ public class TrackIdSearch {
         @SerializedName("total")
         private int total;
 
-        @SerializedName("tracks")
-        private List<Track> tracks;
+        @SerializedName("items")
+        private List<Track> items;
         //Construtor
         public Tracks(){}
 
-        public Tracks(String href, int limit, String next, int offset, String previous, int total, List<Track> tracks) {
+        public Tracks(String href, int limit, String next, int offset, String previous, int total, List<Track> items) {
             this.href = href;
             this.limit = limit;
             this.next = next;
             this.offset = offset;
             this.previous = previous;
             this.total = total;
-            this.tracks = tracks;
+            this.items = items;
         }
 
 
@@ -92,11 +92,11 @@ public class TrackIdSearch {
         }
 
         public List<Track> getTracks() {
-            return tracks;
+            return items;
         }
 
-        public void setTracks(List<Track> tracks) {
-            this.tracks = tracks;
+        public void setTracks(List<Track> items) {
+            this.items = items;
         }
     }
     @SerializedName("tracks")

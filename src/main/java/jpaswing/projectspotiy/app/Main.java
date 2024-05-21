@@ -1,9 +1,6 @@
 package jpaswing.projectspotiy.app;
 
-import jpaswing.projectspotiy.controller.AlbumController;
-import jpaswing.projectspotiy.controller.ArtistsController;
-import jpaswing.projectspotiy.controller.ArtistsControllerPrueba;
-import jpaswing.projectspotiy.controller.TrackController;
+import jpaswing.projectspotiy.controller.*;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,8 +15,11 @@ public class Main {
                 .web(WebApplicationType.NONE)
                 .run(args);*/
         //System.out.println(ArtistsController.artistSearch().getName());
-        ArtistsControllerPrueba.artistSearch().forEach(artist -> System.out.println(artist.getName()));
-        //System.out.println(AlbumController.albumSearch().getArtists().getFirst().getName());
+        ArtistsController.artistSearch().forEach(artist -> System.out.println(artist.getGenres()));
+        AlbumController.albumSearch().forEach(album -> System.out.println(album.getTracks().toString()));
+        TrackController.trackSearch().forEach(track -> System.out.println(track.getArtists()));
+        PlaylistController.playlistsSearch().forEach(playlist -> System.out.println(playlist.getTracks()));
+
         //System.out.println(TrackController.trackSearch().getArtists().getFirst().getName());
     }
 }
