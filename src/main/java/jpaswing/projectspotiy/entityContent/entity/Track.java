@@ -69,6 +69,32 @@ public class Track {
     @SerializedName("is_local")
     private boolean isLocal;
 
+    //Constructor
+    public Track(){}
+
+    public Track(Album album, List<Artist> artists, List<String> availableMarkets, int discNumber, int durationMs, boolean explicit, ExternalIds externalIds, ExternalUrls externalUrls, String href, String id, boolean isPlayable, JsonObject linkedFrom, Restriction restrictions, String name, int popularity, String previewUrl, int trackNumber, String type, String uri, boolean isLocal) {
+        this.album = album;
+        this.artists = artists;
+        this.availableMarkets = availableMarkets;
+        this.discNumber = discNumber;
+        this.durationMs = durationMs;
+        this.explicit = explicit;
+        this.externalIds = externalIds;
+        this.externalUrls = externalUrls;
+        this.href = href;
+        this.id = id;
+        this.isPlayable = isPlayable;
+        this.linkedFrom = linkedFrom;
+        this.restrictions = restrictions;
+        this.name = name;
+        this.popularity = popularity;
+        this.previewUrl = previewUrl;
+        this.trackNumber = trackNumber;
+        this.type = type;
+        this.uri = uri;
+        this.isLocal = isLocal;
+    }
+
     // Getters and Setters
     public Album getAlbum() {
         return album;

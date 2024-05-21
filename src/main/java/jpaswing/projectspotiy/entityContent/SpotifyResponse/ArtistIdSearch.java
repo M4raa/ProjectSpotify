@@ -9,8 +9,8 @@ public class ArtistIdSearch {
         @SerializedName("href")
         private String href;
 
-        @SerializedName("items")
-        private List<Artist> items;
+        @SerializedName("artists")
+        private List<Artist> artists;
 
         @SerializedName("limit")
         private int limit;
@@ -27,6 +27,22 @@ public class ArtistIdSearch {
         @SerializedName("total")
         private int total;
 
+        //Constructor
+
+
+        public Artists() {
+        }
+
+        public Artists(String href, List<Artist> artists, int limit, String next, int offset, String previous, int total) {
+            this.href = href;
+            this.artists = artists;
+            this.limit = limit;
+            this.next = next;
+            this.offset = offset;
+            this.previous = previous;
+            this.total = total;
+        }
+
         // Getters and Setters
         public String getHref() {
             return href;
@@ -36,12 +52,12 @@ public class ArtistIdSearch {
             this.href = href;
         }
 
-        public List<Artist> getItems() {
-            return items;
+        public List<Artist> getArtists() {
+            return artists;
         }
 
-        public void setItems(List<Artist> items) {
-            this.items = items;
+        public void setArtists(List<Artist> artists) {
+            this.artists = artists;
         }
 
         public int getLimit() {
@@ -87,6 +103,15 @@ public class ArtistIdSearch {
 
     @SerializedName("artists")
     private Artists artists;
+
+    //Contructor
+
+    public ArtistIdSearch() {
+    }
+
+    public ArtistIdSearch(Artists artists) {
+        this.artists = artists;
+    }
 
     // Getters and Setters
     public Artists getArtists() {

@@ -1,7 +1,11 @@
 package jpaswing.projectspotiy.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import jpaswing.projectspotiy.entityContent.SpotifyResponse.ArtistIdSearch;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.utilities.JsonConverter;
@@ -9,33 +13,39 @@ import jpaswing.projectspotiy.utilities.NameConverter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class ArtistsControllerPrueba {
-    public static List<String> artistIdSearch() throws IOException {
+    public static String artistIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter artist name: ");
         String artistName = NameConverter.spaceEraser(sc.nextLine());
         String apiUrl = "https://api.spotify.com/v1/search";
-        String query = "?q=" + artistName + "&type=artist&limit=1";
+        String query = "?q=" + artistName + "&type=artist&limit=15";
         String uri = apiUrl + query;
-        JsonObject jsonObject = UrlConnection.getUrlConnection(uri);
-        //ID return
-        String id = JsonConverter.artistIdConverter(jsonObject);
-        if (id==null){
-            return "That artist does not exist";
-        } return id;
-    }
-    public static Artist artistSearch() throws IOException {
-        String id = artistIdSearch();
-        Artist artist;
-        String apiUrl = "https://api.spotify.com/v1/artists/";
-        String query = id;
-        String uri = apiUrl + query;
-        JsonObject jsonObject = UrlConnection.getUrlConnection(uri);
+        JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();
-        artist = gson.fromJson(jsonObject, Artist.class);
-        return artist;
+        List<ArtistIdSearch> artists = Collections.singletonList(gson.fromJson(js, ArtistIdSearch.class));
+        //ID return
+        return JsonConverter.artistIdConverter(artists);
+    }
+    public static List<Artist> artistSearch() throws IOException {
+        List<Artist> artists = new ArrayList<>();
+        String artistsIds = artistIdSearch();
+        String apiUrl = "https://api.spotify.com/v1/artists/";
+        String query = artistsIds;
+        String uri = apiUrl + query;
+        JsonObject js = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        List<Artist> artistList = Collections.singletonList(gson.fromJson(js, Artist.class));
+        for (Artist artist : artistList) {
+            artists.add(artist);
+        }
+        return artists;
     }
 }
