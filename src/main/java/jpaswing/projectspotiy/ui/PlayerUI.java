@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.controller.PlaylistController;
+import jpaswing.projectspotiy.controller.TrackController;
 import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 import jpaswing.projectspotiy.repository.PlaylistRepo;
@@ -14,6 +15,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
+import static jpaswing.projectspotiy.controller.TrackController.trackSearch;
+
 public class PlayerUI extends JFrame {
     private JPanel reproductorPanel;
     private JButton reproduce, nextSong, previousSong;
@@ -21,6 +24,7 @@ public class PlayerUI extends JFrame {
     private Clip clip;
     private JSlider barraRepro;
     private JLabel etiqueta = new JLabel();
+    private Track track;
 
     public PlayerUI() {
         initUI();
@@ -57,7 +61,8 @@ public class PlayerUI extends JFrame {
                     clip.stop();
                     clip.close();
                 } else {
-                    String previewUrl = "https://p.scdn.co/mp3-preview/example.mp3";
+                    trackSearch();
+                    String previewUrl = track.getPreviewUrl();
                     try {
                         playAudio(previewUrl);
                     } catch (Exception ex) {
