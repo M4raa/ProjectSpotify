@@ -7,15 +7,16 @@ import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.utilities.JsonConverter;
 import jpaswing.projectspotiy.utilities.NameConverter;
-
+import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class PlaylistController {
-    public static String playlistIdSearch() throws IOException {
+    public String playlistIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter playlist name: ");
         String playlistName = NameConverter.spaceEraser(sc.nextLine());
@@ -28,7 +29,7 @@ public class PlaylistController {
         //ID return
         return JsonConverter.playlistIdConverter(playlists);
     }
-    public static List<Playlist> playlistsSearch() throws IOException {
+    public List<Playlist> playlistsSearch() throws IOException {
         List<Playlist> playlists = new ArrayList<>();
         String id = playlistIdSearch();
         String apiUrl = "https://api.spotify.com/v1/playlists/";

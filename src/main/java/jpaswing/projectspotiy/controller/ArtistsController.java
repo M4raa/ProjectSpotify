@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 @Component
 public class ArtistsController {
-    public static String artistIdSearch() throws IOException {
+    public String artistIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter artist name: ");
         String artistName = NameConverter.spaceEraser(sc.nextLine());
@@ -29,7 +29,7 @@ public class ArtistsController {
         //ID return
         return JsonConverter.artistIdConverter(artists);
     }
-    public static List<Artist> artistSearch() throws IOException {
+    public List<Artist> artistSearch() throws IOException {
         List<Artist> artists = new ArrayList<>();
         String artistsIds = artistIdSearch();
         String apiUrl = "https://api.spotify.com/v1/artists/";

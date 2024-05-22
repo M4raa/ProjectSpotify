@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
 import org.json.*;
 
 public class TokenRequest {

@@ -3,8 +3,6 @@ package jpaswing.projectspotiy.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.AlbumIdSearch;
-import jpaswing.projectspotiy.entityContent.SpotifyResponse.ArtistIdSearch;
-import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.utilities.NameConverter;
 import jpaswing.projectspotiy.utilities.JsonConverter;
 import jpaswing.projectspotiy.service.UrlConnection;
@@ -18,7 +16,7 @@ import java.util.Scanner;
 
 @Component
 public class AlbumController {
-    public static String albumIdSearch() throws IOException {
+    public  String albumIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter album name: ");
         String albumName = NameConverter.spaceEraser(sc.nextLine());
@@ -31,7 +29,7 @@ public class AlbumController {
         //ID return
         return JsonConverter.albumIdConverter(albums);
     }
-    public static List<Album> albumSearch() throws IOException {
+    public  List<Album> albumSearch() throws IOException {
         List<Album> albums = new ArrayList<>();
         String id = albumIdSearch();
         String apiUrl = "https://api.spotify.com/v1/albums/";

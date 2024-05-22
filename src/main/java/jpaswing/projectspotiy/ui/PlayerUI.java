@@ -15,8 +15,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import static jpaswing.projectspotiy.controller.TrackController.trackSearch;
-
 public class PlayerUI extends JFrame {
     private JPanel reproductorPanel;
     private JButton reproduce, nextSong, previousSong;
@@ -99,12 +97,7 @@ public class PlayerUI extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                String url;
-                try {
-                   url = TrackController.trackSearch().getFirst().getPreviewUrl();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                String url = "https://www.google.com/";
                 PlayerUI playerUI = new PlayerUI(url);
                 playerUI.setVisible(true);
             }

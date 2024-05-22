@@ -2,9 +2,7 @@ package jpaswing.projectspotiy.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import jpaswing.projectspotiy.entityContent.SpotifyResponse.ArtistIdSearch;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
-import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.utilities.JsonConverter;
@@ -18,7 +16,7 @@ import java.util.Scanner;
 
 @Component
 public class TrackController {
-    public static String trackIdSearch() throws IOException {
+    public String trackIdSearch() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter track name: ");
         String trackName = NameConverter.spaceEraser(sc.nextLine());
@@ -31,7 +29,7 @@ public class TrackController {
         //ID return
         return JsonConverter.trackIdConverter(tracks);
     }
-    public static List<Track> trackSearch() throws IOException {
+    public List<Track> trackSearch() throws IOException {
         List<Track> tracks = new ArrayList<>();
         String id = trackIdSearch();
         String apiUrl = "https://api.spotify.com/v1/tracks/";

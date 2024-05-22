@@ -1,20 +1,15 @@
 package jpaswing.projectspotiy.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import jpaswing.projectspotiy.entityContent.entity.Artist;
-
+import org.springframework.web.bind.annotation.RestController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
+@RestController
 public class UrlConnection {
     public static JsonObject getUrlConnection(String uri) throws IOException {
         String bearer = Authorization.getBearer();
