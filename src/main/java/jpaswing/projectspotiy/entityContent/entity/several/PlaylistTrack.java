@@ -1,12 +1,10 @@
-package jpaswing.projectspotiy.entityContent.SpotifyResponse;
-
+package jpaswing.projectspotiy.entityContent.entity.several;
 import com.google.gson.annotations.SerializedName;
-import jpaswing.projectspotiy.entityContent.entity.Playlist;
 
 import java.util.List;
 
-public class PlaylistIdSearch {
-    public class Playlists {
+public class PlaylistTrack {
+    public static class Tracks {
         @SerializedName("href")
         private String href;
 
@@ -26,13 +24,11 @@ public class PlaylistIdSearch {
         private int total;
 
         @SerializedName("items")
-        private List<Playlist> items;
+        private List<TrackItem> items;
+        //Construtor
+        public Tracks(){}
 
-        //Contructor
-        public Playlists() {
-        }
-
-        public Playlists(String href, int limit, String next, int offset, String previous, int total, List<Playlist> items) {
+        public Tracks(String href, int limit, String next, int offset, String previous, int total, List<TrackItem> items) {
             this.href = href;
             this.limit = limit;
             this.next = next;
@@ -41,8 +37,8 @@ public class PlaylistIdSearch {
             this.total = total;
             this.items = items;
         }
+        // Getters and Setters
 
-        // Getters and setters
         public String getHref() {
             return href;
         }
@@ -91,30 +87,12 @@ public class PlaylistIdSearch {
             this.total = total;
         }
 
-        public List<Playlist> getItems() {
+        public List<TrackItem> getItems() {
             return items;
         }
 
-        public void setItems(List<Playlist> items) {
+        public void setItems(List<TrackItem> items) {
             this.items = items;
         }
-    }
-    @SerializedName("playlists")
-    private Playlists playlists;
-
-    //Constructor
-    public PlaylistIdSearch(){}
-
-    public PlaylistIdSearch(Playlists playlists) {
-        this.playlists = playlists;
-    }
-
-    // Getters and Setters
-    public Playlists getPlaylists() {
-        return playlists;
-    }
-
-    public void setPlaylists(Playlists playlists) {
-        this.playlists = playlists;
     }
 }

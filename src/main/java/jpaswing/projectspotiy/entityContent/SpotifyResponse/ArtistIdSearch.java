@@ -52,11 +52,11 @@ public class ArtistIdSearch {
             this.href = href;
         }
 
-        public List<Artist> getArtists() {
+        public List<Artist> getItems() {
             return items;
         }
 
-        public void setArtists(List<Artist> items) {
+        public void setItems(List<Artist> items) {
             this.items = items;
         }
 

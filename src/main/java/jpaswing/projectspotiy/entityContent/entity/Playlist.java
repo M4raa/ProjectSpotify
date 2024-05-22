@@ -1,10 +1,10 @@
 package jpaswing.projectspotiy.entityContent.entity;
 
 import com.google.gson.annotations.SerializedName;
-import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
 import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
 import jpaswing.projectspotiy.entityContent.entity.several.Owner;
+import jpaswing.projectspotiy.entityContent.entity.several.PlaylistTrack.Tracks;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class Playlist {
     private String snapshotId;
 
     @SerializedName("tracks")
-    private Track tracks;
+    private Tracks tracks;
 
     @SerializedName("type")
     private String type;
@@ -130,11 +130,11 @@ public class Playlist {
         this.snapshotId = snapshotId;
     }
 
-    public Track getTracks() {
+    public Tracks getPlaylistTracks() {
         return tracks;
     }
 
-    public void setTracks(Track tracks) {
+    public void setPlaylistTracks(Tracks tracks) {
         this.tracks = tracks;
     }
 

@@ -23,7 +23,7 @@ public class AlbumController {
         System.out.println("Enter album name: ");
         String albumName = NameConverter.spaceEraser(sc.nextLine());
         String apiUrl = "https://api.spotify.com/v1/search";
-        String query = "?q=" + albumName + "&type=album&limit=1";
+        String query = "?q=" + albumName + "&type=album&limit=15";
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();

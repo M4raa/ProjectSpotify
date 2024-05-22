@@ -90,11 +90,11 @@ public class AlbumIdSearch {
             this.total = total;
         }
 
-        public List<Album> getAlbums() {
+        public List<Album> getItems() {
             return items;
         }
 
-        public void setAlbums(List<Album> items) {
+        public void setItems(List<Album> items) {
         this.items = items;
     }
     }

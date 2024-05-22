@@ -10,15 +10,10 @@ import java.awt.*;
 
 
 public class MainCL implements CommandLineRunner {
-    private TokenRequest tokenRequest;
-    private JsonConverter jsonConverter;
-    @Autowired
-    public MainCL(TokenRequest tokenRequest, JsonConverter jsonConverter) {
-        this.tokenRequest = tokenRequest;
-        this.jsonConverter = jsonConverter;
-    }
+
     @Override
     public void run(String... args) throws Exception {
-        EventQueue.invokeLater(()  ->  new mainUI(tokenRequest,jsonConverter).setVisible(true));
+        EventQueue.invokeLater(()  ->  new mainUI().setVisible(true));
     }
+
 }

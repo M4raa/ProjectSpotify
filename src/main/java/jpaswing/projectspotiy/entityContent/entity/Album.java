@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.entityContent.entity;
 
 import com.google.gson.annotations.SerializedName;
+import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch.Tracks;
 import jpaswing.projectspotiy.entityContent.entity.several.Copyright;
 import jpaswing.projectspotiy.entityContent.entity.several.ExternalIds;
 import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
@@ -54,7 +55,7 @@ public class Album {
     private List<Artist> artists;
 
     @SerializedName("tracks")
-    private Track track;
+    private Tracks tracks;
 
     @SerializedName("copyrights")
     private List<Copyright> copyrights;
@@ -185,12 +186,12 @@ public class Album {
         this.artists = artists;
     }
 
-    public Track getTracks() {
-        return track;
+    public Tracks getTracks() {
+        return tracks;
     }
 
-    public void setTracks(Track track) {
-        this.track = track;
+    public void setTracks(Tracks tracks) {
+        this.tracks = tracks;
     }
 
     public List<Copyright> getCopyrights() {

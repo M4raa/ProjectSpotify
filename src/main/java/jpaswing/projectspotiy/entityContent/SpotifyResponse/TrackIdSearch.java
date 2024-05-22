@@ -91,11 +91,11 @@ public class TrackIdSearch {
             this.total = total;
         }
 
-        public List<Track> getTracks() {
+        public List<Track> getItems() {
             return items;
         }
 
-        public void setTracks(List<Track> items) {
+        public void setItems(List<Track> items) {
             this.items = items;
         }
     }
