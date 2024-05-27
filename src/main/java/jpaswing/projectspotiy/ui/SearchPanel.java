@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 public class SearchPanel extends JPanel {
 
-    private JButton trackSearchButton, albumSearchButton, artistSearchButton, playlistSearchButton;
-    private JTextField trackSearchField, albumSearchField, artistSearchField, playlistSearchField;
+    private JButton trackSearchButton;
+    private JTextField trackSearchField;
 
     public SearchPanel() {
         setLayout(new GridBagLayout());
@@ -22,20 +22,11 @@ public class SearchPanel extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
         // Configuración de cada conjunto de campo de búsqueda y botón
-        trackSearchField = createSearchField("Tracks");
+        trackSearchField = createSearchField("");
         trackSearchButton = createSearchButton("Enter");
-        albumSearchField = createSearchField("Albums");
-        albumSearchButton = createSearchButton("Enter");
-        artistSearchField = createSearchField("Artists");
-        artistSearchButton = createSearchButton("Enter");
-        playlistSearchField = createSearchField("Playlists");
-        playlistSearchButton = createSearchButton("Enter");
 
         // Añadir los componentes al panel
         add(createSearchPanel(trackSearchField, trackSearchButton), gbc);
-        add(createSearchPanel(albumSearchField, albumSearchButton), gbc);
-        add(createSearchPanel(artistSearchField, artistSearchButton), gbc);
-        add(createSearchPanel(playlistSearchField, playlistSearchButton), gbc);
     }
 
     private JTextField createSearchField(String hint) {
@@ -71,24 +62,6 @@ public class SearchPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 search(trackSearchField.getText(), "Tracks");
-            }
-        });
-        albumSearchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search(albumSearchField.getText(), "Albums");
-            }
-        });
-        artistSearchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search(artistSearchField.getText(), "Artists");
-            }
-        });
-        playlistSearchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search(playlistSearchField.getText(), "Playlists");
             }
         });
     }

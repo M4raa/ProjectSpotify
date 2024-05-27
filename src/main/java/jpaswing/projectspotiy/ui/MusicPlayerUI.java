@@ -26,7 +26,7 @@ public class MusicPlayerUI extends JFrame {
 
         // Añadir los paneles a la ventana
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(searchPanel, BorderLayout.WEST);
+        getContentPane().add(searchPanel, BorderLayout.NORTH);
         getContentPane().add(imageDisplayPanel, BorderLayout.CENTER);
         getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
 

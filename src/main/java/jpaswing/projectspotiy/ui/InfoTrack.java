@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.controller.AlbumController;
+import jpaswing.projectspotiy.controller.TrackController;
 import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 
@@ -15,11 +16,11 @@ public class InfoTrack extends JPanel{
     private JLabel lblTrackName;
     private JLabel lblArtistName;
     private JLabel lblImage;
-    public InfoTrack(){
+    public InfoTrack() throws IOException {
         initComponents();
     }
 
-    private void initComponents(){
+    private void initComponents() throws IOException {
         this.setLayout(new BorderLayout());
 
         lblImage = new JLabel();
@@ -32,6 +33,7 @@ public class InfoTrack extends JPanel{
 
         this.add(lblImage, BorderLayout.WEST);
         this.add(textPanel, BorderLayout.CENTER);
+
     }
 
     public void setTrackInfo (Track track){

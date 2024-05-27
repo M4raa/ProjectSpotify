@@ -8,6 +8,7 @@ import jpaswing.projectspotiy.service.TokenRequest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,12 +23,9 @@ public class mainUI  extends JFrame {
     private TokenRequest tokenRequest;
     private JsonConverter jsonConverter;
     private InfoTrack infoTrack;
-    public mainUI(TokenRequest tokenRequest, JsonConverter jsonConverter)  {
+    public mainUI(TokenRequest tokenRequest, JsonConverter jsonConverter) throws IOException {
         this.tokenRequest = tokenRequest;
         this.jsonConverter = jsonConverter;
-        setTitle("Notas Alumnos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300,300);
         initComponents();
         //updateData();
     }
@@ -36,14 +34,13 @@ public class mainUI  extends JFrame {
 
     }
 
-    private void initComponents(){
-        this.setTitle("Music Info");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 400);
-        this.setLayout(new BorderLayout());
+    private void initComponents() throws IOException {
 
-        infoTrack = new InfoTrack();
-        this.add(infoTrack, BorderLayout.CENTER);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        this.setTitle("Music Info");
+        this.setSize(600, 600);
+        this.setResizable(false);
 
         Track track = new Track();
         track.setName("Example Track");
@@ -51,6 +48,9 @@ public class mainUI  extends JFrame {
         Album album = new Album();
         infoTrack.setTrackInfo(track);
         this.setVisible(true);
+
+        infoTrack = new InfoTrack();
+        this.add(infoTrack, BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
