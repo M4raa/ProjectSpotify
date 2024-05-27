@@ -4,6 +4,7 @@ import jpaswing.projectspotiy.controller.AlbumController;
 import jpaswing.projectspotiy.controller.ArtistsController;
 import jpaswing.projectspotiy.controller.PlaylistController;
 import jpaswing.projectspotiy.controller.TrackController;
+import jpaswing.projectspotiy.ui.MusicPlayerUI;
 import jpaswing.projectspotiy.ui.PlayerUI2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,12 +29,7 @@ public class MainCL implements CommandLineRunner {
     @Override
     public void run(String... args) throws IOException {
         EventQueue.invokeLater(()  -> {
-            try {
-                String previewUrl = trackController.trackSearch().getFirst().getPreviewUrl();
-                new PlayerUI2(previewUrl).setVisible(true);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                new MusicPlayerUI().setVisible(true);
         });
     }
 

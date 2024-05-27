@@ -16,10 +16,8 @@ import java.util.Scanner;
 
 @Component
 public class PlaylistController {
-    public String playlistIdSearch() throws IOException {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter playlist name: ");
-        String playlistName = NameConverter.spaceEraser(sc.nextLine());
+    public String playlistIdSearch(String inputText) throws IOException {
+        String playlistName = NameConverter.spaceEraser(inputText);
         String apiUrl = "https://api.spotify.com/v1/search";
         String query = "?q=" + playlistName + "&type=playlist&limit=10";
         String uri = apiUrl + query;
@@ -29,9 +27,9 @@ public class PlaylistController {
         //ID return
         return JsonConverter.playlistIdConverter(playlists);
     }
-    public List<Playlist> playlistsSearch() throws IOException {
+    public List<Playlist> playlistsSearch(String inputText) throws IOException {
         List<Playlist> playlists = new ArrayList<>();
-        String id = playlistIdSearch();
+        String id = playlistIdSearch(inputText);
         String apiUrl = "https://api.spotify.com/v1/playlists/";
         String query = id;
         String uri = apiUrl + query;

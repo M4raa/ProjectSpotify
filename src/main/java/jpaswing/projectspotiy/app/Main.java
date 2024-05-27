@@ -22,9 +22,5 @@ public class Main {
                 .headless(false)
                 .web(WebApplicationType.NONE)
                 .run(args);
-        //ArtistsController.artistSearch().forEach(artist -> System.out.println(artist.getGenres()));
-        //AlbumController.albumSearch().forEach(album -> album.getTracks().getItems().forEach(track -> System.out.println(track.getName())));
-        //TrackController.trackSearch().forEach(track -> System.out.println(track.getArtists().getFirst().getName()));
-        //PlaylistController.playlistsSearch().forEach(playlist -> playlist.getPlaylistTracks().getItems().forEach(trackItem -> System.out.println(trackItem.getTrack().getName())));
     }
 }

@@ -16,10 +16,8 @@ import java.util.Scanner;
 
 @Component
 public class AlbumController {
-    public  String albumIdSearch() throws IOException {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter album name: ");
-        String albumName = NameConverter.spaceEraser(sc.nextLine());
+    public  String albumIdSearch(String inputText) throws IOException {
+        String albumName = NameConverter.spaceEraser(inputText);
         String apiUrl = "https://api.spotify.com/v1/search";
         String query = "?q=" + albumName + "&type=album&limit=15";
         String uri = apiUrl + query;
@@ -29,9 +27,9 @@ public class AlbumController {
         //ID return
         return JsonConverter.albumIdConverter(albums);
     }
-    public  List<Album> albumSearch() throws IOException {
+    public  List<Album> albumSearch(String inputText) throws IOException {
         List<Album> albums = new ArrayList<>();
-        String id = albumIdSearch();
+        String id = albumIdSearch(inputText);
         String apiUrl = "https://api.spotify.com/v1/albums/";
         String query = id;
         String uri = apiUrl + query;

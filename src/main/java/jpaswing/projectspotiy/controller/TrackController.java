@@ -16,10 +16,8 @@ import java.util.Scanner;
 
 @Component
 public class TrackController {
-    public String trackIdSearch() throws IOException {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter track name: ");
-        String trackName = NameConverter.spaceEraser(sc.nextLine());
+    public String trackIdSearch(String inputText) throws IOException {
+        String trackName = NameConverter.spaceEraser(inputText);
         String apiUrl = "https://api.spotify.com/v1/search";
         String query = "?q=" + trackName + "&type=track&limit=1";
         String uri = apiUrl + query;
@@ -29,9 +27,9 @@ public class TrackController {
         //ID return
         return JsonConverter.trackIdConverter(tracks);
     }
-    public List<Track> trackSearch() throws IOException {
+    public List<Track> trackSearch(String inputText) throws IOException {
         List<Track> tracks = new ArrayList<>();
-        String id = trackIdSearch();
+        String id = trackIdSearch(inputText);
         String apiUrl = "https://api.spotify.com/v1/tracks/";
         String query = id;
         String uri = apiUrl + query;
