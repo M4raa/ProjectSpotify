@@ -6,8 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SearchPanel extends JPanel {
-    private HintTextField trackSearchField, albumSearchField, artistSearchField, playlistSearchField;
+
     private JButton trackSearchButton, albumSearchButton, artistSearchButton, playlistSearchButton;
+    private JTextField trackSearchField, albumSearchField, artistSearchField, playlistSearchField;
 
     public SearchPanel() {
         setLayout(new GridBagLayout());
@@ -21,13 +22,13 @@ public class SearchPanel extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
         // Configuración de cada conjunto de campo de búsqueda y botón
-        trackSearchField = new HintTextField("Tracks");
+        trackSearchField = createSearchField("Tracks");
         trackSearchButton = createSearchButton("Enter");
-        albumSearchField = new HintTextField("Albums");
+        albumSearchField = createSearchField("Albums");
         albumSearchButton = createSearchButton("Enter");
-        artistSearchField = new HintTextField("Artists");
+        artistSearchField = createSearchField("Artists");
         artistSearchButton = createSearchButton("Enter");
-        playlistSearchField = new HintTextField("Playlists");
+        playlistSearchField = createSearchField("Playlists");
         playlistSearchButton = createSearchButton("Enter");
 
         // Añadir los componentes al panel
@@ -35,6 +36,16 @@ public class SearchPanel extends JPanel {
         add(createSearchPanel(albumSearchField, albumSearchButton), gbc);
         add(createSearchPanel(artistSearchField, artistSearchButton), gbc);
         add(createSearchPanel(playlistSearchField, playlistSearchButton), gbc);
+    }
+
+    private JTextField createSearchField(String hint) {
+        JTextField field = new JTextField(hint);
+        field.setBackground(new Color(220, 220, 220)); // Color de fondo pastel claro
+        field.setBorder(BorderFactory.createLineBorder(Color.GRAY)); // Borde gris
+        field.setForeground(Color.BLACK); // Color del texto negro
+        field.setFont(new Font("Arial", Font.PLAIN, 14)); // Fuente Arial, tamaño 14
+        field.setPreferredSize(new Dimension(150, 30)); // Tamaño preferido
+        return field;
     }
 
     private JButton createSearchButton(String text) {
@@ -87,4 +98,3 @@ public class SearchPanel extends JPanel {
         System.out.println("Buscar " + category + ": " + searchText);
     }
 }
-
