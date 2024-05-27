@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
 import jpaswing.projectspotiy.entityContent.entity.Track;
@@ -9,10 +10,8 @@ import jpaswing.projectspotiy.utilities.JsonConverter;
 import jpaswing.projectspotiy.utilities.NameConverter;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 @Component
 public class TrackController {
@@ -28,17 +27,12 @@ public class TrackController {
         return JsonConverter.trackIdConverter(tracks);
     }
     public List<Track> trackSearch(String inputText) throws IOException {
-        List<Track> tracks = new ArrayList<>();
         String id = trackIdSearch(inputText);
-        String apiUrl = "https://api.spotify.com/v1/tracks/";
+        String apiUrl = "https://api.spotify.com/v1/tracks?ids=";
         String query = id;
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
-        Gson gson = new Gson();
-        List<Track> tracksList = Collections.singletonList(gson.fromJson(js, Track.class));
-        for (Track track : tracksList) {
-            tracks.add(track);
-        }
-        return tracks;
+        JsonArray trackArray = js.getAsJsonArray("tracks");
+        return JsonConverter.trackConverter(trackArray);
     }
 }

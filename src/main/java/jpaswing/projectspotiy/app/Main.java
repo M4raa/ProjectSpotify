@@ -12,15 +12,23 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.Scanner;
 
 import static jpaswing.projectspotiy.controller.AlbumController.*;
 
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) throws IOException {
-        new SpringApplicationBuilder(Main.class)
-                .headless(false)
-                .web(WebApplicationType.NONE)
-                .run(args);
+        //new SpringApplicationBuilder(Main.class)
+        //        .headless(false)
+        //        .web(WebApplicationType.NONE)
+        //        .run(args);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("playlist:");
+        String playlist = sc.nextLine();
+        PlaylistController playlistController = new PlaylistController();
+        System.out.println("------------Playlists-----------");
+        System.out.println(playlistController.playlistsSearch(playlist).getName());
     }
 }

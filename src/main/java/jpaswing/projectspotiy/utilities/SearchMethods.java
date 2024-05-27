@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class SearchMethods {
@@ -21,32 +23,26 @@ public class SearchMethods {
     final TrackController trackController = new TrackController();
     public void grandSearch(String textSearch) throws IOException {
         //ArtistSearch
-        ArrayList<Artist> artists = new ArrayList<>();
-        artistsController.artistSearch(textSearch).forEach(artists::add);
-
+        List<Artist> artists = new ArrayList<>(artistsController.artistSearch(textSearch));
         //PlaylistSearch
-        ArrayList<Playlist> playlists = new ArrayList<>();
-        playlistController.playlistsSearch(textSearch).forEach(playlists::add);
-
+        List<Playlist> playlist = Collections.singletonList(playlistController.playlistsSearch(textSearch));
         //TrackSearch
-        ArrayList<Track> tracks = new ArrayList<>();
-        trackController.trackSearch(textSearch).forEach(tracks::add);
-
+        List<Track> tracks = new ArrayList<>(trackController.trackSearch(textSearch));
         //AlbumSearch
-        ArrayList<Album> albums = new ArrayList<>();
-        albumController.albumSearch(textSearch).forEach(albums::add);
-
+        List<Album> albums = new ArrayList<>(albumController.albumSearch(textSearch));
         //Group
-        ArrayList<ArrayList> group = new ArrayList<>();
+        ArrayList<List> group = new ArrayList<>();
         group.add(artists);
-        group.add(playlists);
+        group.add(playlist);
         group.add(tracks);
         group.add(albums);
-        for (ArrayList arrayList : group) {
-            for (Object object : arrayList) {
+        for (List list : group) {
+            for (Object object : list) {
                 System.out.println(object);
             }
         }
     }
-
+    public void seeStats(String inputText) throws IOException {
+        albumController.albumSearch(inputText).forEach(song -> System.out.println(song));
+    }
 }

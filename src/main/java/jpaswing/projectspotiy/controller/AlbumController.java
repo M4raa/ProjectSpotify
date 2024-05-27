@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.AlbumIdSearch;
 import jpaswing.projectspotiy.utilities.NameConverter;
@@ -9,10 +10,8 @@ import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.entityContent.entity.Album;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 @Component
 public class AlbumController {
@@ -28,18 +27,13 @@ public class AlbumController {
         return JsonConverter.albumIdConverter(albums);
     }
     public  List<Album> albumSearch(String inputText) throws IOException {
-        List<Album> albums = new ArrayList<>();
         String id = albumIdSearch(inputText);
-        String apiUrl = "https://api.spotify.com/v1/albums/";
+        String apiUrl = "https://api.spotify.com/v1/albums?ids=";
         String query = id;
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
-        Gson gson = new Gson();
-        List<Album> albumList = Collections.singletonList(gson.fromJson(js, Album.class));
-        for (Album album : albumList) {
-            albums.add(album);
-        }
-        return albums;
+        JsonArray albumArray = js.getAsJsonArray("albums");
+        return JsonConverter.albumConverter(albumArray);
     }
 }
 
