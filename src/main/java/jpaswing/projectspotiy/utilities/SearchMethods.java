@@ -8,6 +8,9 @@ import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
+import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
+import jpaswing.projectspotiy.entityContent.entity.several.Followers;
+import jpaswing.projectspotiy.entityContent.entity.several.Image;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,15 +24,16 @@ public class SearchMethods {
     final ArtistsController artistsController = new ArtistsController();
     final AlbumController albumController = new AlbumController();
     final TrackController trackController = new TrackController();
-    public void grandSearch(String textSearch) throws IOException {
+    //GENERAL
+    public void grandSearch(String inputText) throws IOException {
         //ArtistSearch
-        List<Artist> artists = new ArrayList<>(artistsController.artistSearch(textSearch));
+        List<Artist> artists = new ArrayList<>(artistsController.artistSearch(inputText));
         //PlaylistSearch
-        List<Playlist> playlist = Collections.singletonList(playlistController.playlistsSearch(textSearch));
+        List<Playlist> playlist = Collections.singletonList(playlistController.playlistsSearch(inputText));
         //TrackSearch
-        List<Track> tracks = new ArrayList<>(trackController.trackSearch(textSearch));
+        List<Track> tracks = new ArrayList<>(trackController.trackSearch(inputText));
         //AlbumSearch
-        List<Album> albums = new ArrayList<>(albumController.albumSearch(textSearch));
+        List<Album> albums = new ArrayList<>(albumController.albumSearch(inputText));
         //Group
         ArrayList<List> group = new ArrayList<>();
         group.add(artists);
@@ -50,7 +54,98 @@ public class SearchMethods {
             }
         }
     }
-    public void seeStats(String inputText) throws IOException {
-        albumController.albumSearch(inputText).forEach(song -> System.out.println(song));
+
+    //ARTISTS
+    public String artistHref(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getHref();
     }
+    public int artistId(String inputText) throws IOException {
+        return Integer.parseInt(artistsController.artistSearch(inputText).getFirst().getId());
+    }
+    public String artistName(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getName();
+    }
+    public String artistType(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getType();
+    }
+    public String artistUri(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getUri();
+    }
+    public Followers artistFollowers(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getFollowers();
+    }
+    public List<String> artistGeneres(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getGenres();
+    }
+    public List<Image> artistImages(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getImages();
+    }
+    public ExternalUrls artistExternalUrls(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getExternalUrls();
+    }
+    public int artistPopularity(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getPopularity();
+    }
+
+    //TRACKS
+    public String trackPreviewUrl(String inputText) throws IOException {
+        return Integer.parseInt(artistsController.artistSearch(inputText).getFirst().getId());
+    }
+    public List<Artist> trackArtists(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getName();
+    }
+    public String trackName(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getType();
+    }
+    public int trackId(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getUri();
+    }
+    public String trackHref(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getFollowers();
+    }
+    public List<String> artistGeneres(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getGenres();
+    }
+    public List<Image> artistImages(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getImages();
+    }
+    public ExternalUrls artistExternalUrls(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getExternalUrls();
+    }
+    public int artistPopularity(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getPopularity();
+    }
+    //ALBUMS
+    public String artistHref(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getHref();
+    }
+    public int artistId(String inputText) throws IOException {
+        return Integer.parseInt(artistsController.artistSearch(inputText).getFirst().getId());
+    }
+    public String artistName(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getName();
+    }
+    public String artistType(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getType();
+    }
+    public String artistUri(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getUri();
+    }
+    public Followers artistFollowers(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getFollowers();
+    }
+    public List<String> artistGeneres(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getGenres();
+    }
+    public List<Image> artistImages(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getImages();
+    }
+    public ExternalUrls artistExternalUrls(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getExternalUrls();
+    }
+    public int artistPopularity(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getPopularity();
+    }
+    //PLAYLISTS
+
 }
