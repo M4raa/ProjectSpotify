@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.ArtistIdSearch;
+import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.utilities.JsonConverter;
 import jpaswing.projectspotiy.utilities.NameConverter;
 import jpaswing.projectspotiy.service.UrlConnection;
@@ -35,5 +36,13 @@ public class ArtistsController {
         JsonObject js = UrlConnection.getUrlConnection(uri);
         JsonArray artistArray = js.getAsJsonArray("artists");
         return JsonConverter.artistConverter(artistArray);
+    }
+    public Artist artistById(String id) throws IOException {
+        String apiUrl = "https://api.spotify.com/v1/artists/";
+        String query = id;
+        String uri = apiUrl + query;
+        JsonObject js = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        return gson.fromJson(js, Artist.class);
     }
 }

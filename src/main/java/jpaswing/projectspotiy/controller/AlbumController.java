@@ -35,6 +35,14 @@ public class AlbumController {
         JsonArray albumArray = js.getAsJsonArray("albums");
         return JsonConverter.albumConverter(albumArray);
     }
+    public Album albumById(String id) throws IOException {
+        String apiUrl = "https://api.spotify.com/v1/albums/";
+        String query = id;
+        String uri = apiUrl + query;
+        JsonObject js = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        return gson.fromJson(js, Album.class);
+    }
 }
 
 

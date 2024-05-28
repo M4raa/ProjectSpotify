@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.PlaylistIdSearch;
+import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.utilities.JsonConverter;
@@ -35,5 +36,13 @@ public class PlaylistController {
         Gson gson = new Gson();
         Playlist playlist = gson.fromJson(js, Playlist.class);
         return playlist;
+    }
+    public Playlist playlistById(String id) throws IOException {
+        String apiUrl = "https://api.spotify.com/v1/playlists/";
+        String query = id;
+        String uri = apiUrl + query;
+        JsonObject js = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        return gson.fromJson(js, Playlist.class);
     }
 }
