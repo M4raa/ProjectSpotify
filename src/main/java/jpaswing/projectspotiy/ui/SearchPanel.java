@@ -1,16 +1,24 @@
 package jpaswing.projectspotiy.ui;
 
+import jpaswing.projectspotiy.utilities.SearchMethods;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.List;
 
 public class SearchPanel extends JPanel {
 
     private JButton trackSearchButton;
     private JTextField trackSearchField;
+    private SearchMethods searchMethods;
+    private DisplayPanel displayPanel;
 
-    public SearchPanel() {
+    public SearchPanel(DisplayPanel displayPanel) {
+        this.displayPanel = displayPanel;
+        this.searchMethods = new SearchMethods();
         setLayout(new GridBagLayout());
         setBackground(new Color(60, 63, 65)); // Color de fondo gris oscuro
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Márgenes alrededor del panel
@@ -61,13 +69,17 @@ public class SearchPanel extends JPanel {
         trackSearchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                search(trackSearchField.getText(), "Tracks");
+                try {
+                    search(trackSearchField.getText());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
 
-    private void search(String searchText, String category) {
-        // Aquí puedes implementar la lógica de búsqueda para diferentes categorías
-        System.out.println("Buscar " + category + ": " + searchText);
+    private void search(String searchText) throws IOException {
+        List<String> results = searchMethods.grandSearch(searchText);
+        displayPanel.displayResults(results);
     }
 }
