@@ -50,15 +50,7 @@ public class SearchMethods {
         }
         return result;
     }
-    /*if (object instanceof Artist) {
-        System.out.println("Artist - " + ((Artist) object).getName());
-    } else if (object instanceof Album) {
-        System.out.println("Album - " + ((Album) object).getName());
-    } else if (object instanceof Track) {
-        System.out.println("Track - " + ((Track) object).getName());
-    } else if (object instanceof Playlist) {
-        System.out.println("Playlist - " + ((Playlist) object).getName());
-    }*/
+
     //ARTISTS
     public String artistHref(String id) throws IOException {
         return artistsController.artistById(id).getHref();
@@ -93,28 +85,28 @@ public class SearchMethods {
 
     //TRACKS
     public String trackPreviewUrl(String id) throws IOException {
-        return trackController.trackById(id)
+        return trackController.trackById(id).getPreviewUrl();
     }
     public List<Artist> trackArtists(String id) throws IOException {
-        return trackController.trackById(id)
+        return trackController.trackById(id).getArtists();
     }
     public String trackName(String id) throws IOException {
-        return trackController.trackById(id)
+        return trackController.trackById(id).getName();
     }
     public int trackId(String id) throws IOException {
-        return trackController.trackById(id)
+        return Integer.parseInt(trackController.trackById(id).getId());
     }
     public String trackHref(String id) throws IOException {
-        return trackController.trackById(id)
+        return trackController.trackById(id).getHref();
     }
     public Album trackAlbum(String id) throws IOException {
-        return trackController.trackById(id)
+        return trackController.trackById(id).getAlbum();
     }
     public List<String> trackAvailableMarkets(String id) throws IOException {
-        return trackController.trackById(id)
+        return trackController.trackById(id).getAvailableMarkets();
     }
     public int trackDiscNumbre(String id) throws IOException {
-        trackController.trackById(id).getDiscNumber()
+        trackController.trackById(id).getDiscNumber();
     }
     public double trackDurationMs(String id) throws IOException {
         return trackController.trackById(id).getDurationMs();
