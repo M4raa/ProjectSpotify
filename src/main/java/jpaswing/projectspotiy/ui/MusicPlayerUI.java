@@ -1,11 +1,12 @@
 package jpaswing.projectspotiy.ui;
 
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MusicPlayerUI extends JFrame {
     private SearchPanel searchPanel;
-    private ImageDisplayPanel imageDisplayPanel;
+    private DisplayPanel displayPanel;
     private PlayerControlsPanel playerControlsPanel;
 
     public MusicPlayerUI() {
@@ -20,14 +21,14 @@ public class MusicPlayerUI extends JFrame {
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
         // Inicializar paneles
-        searchPanel = new SearchPanel();
-        imageDisplayPanel = new ImageDisplayPanel();
+        displayPanel = new DisplayPanel();
+        searchPanel = new SearchPanel(displayPanel);
         playerControlsPanel = new PlayerControlsPanel();
 
         // Añadir los paneles a la ventana
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(searchPanel, BorderLayout.NORTH);
-        getContentPane().add(imageDisplayPanel, BorderLayout.CENTER);
+        getContentPane().add(displayPanel, BorderLayout.CENTER);
         getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
 
         // Añadir ActionListeners a los botones de búsqueda
