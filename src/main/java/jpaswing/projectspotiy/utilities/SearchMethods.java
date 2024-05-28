@@ -203,5 +203,37 @@ public class SearchMethods {
         return artistsController.artistSearch(inputText).getFirst().getPopularity();
     }
     //PLAYLISTS
-
+    public PlaylistTrack.Tracks playlistTracks(String inputText) throws IOException {
+        return playlistController.playlistsSearch(inputText).getId();
+    }
+    public String playlistName(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getName();
+    }
+    public int playlistId(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getType();
+    }
+    public String playlistHref(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getUri();
+    }
+    public List<Image> playlistImages(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getFollowers();
+    }
+    public String playlistDescription(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getGenres();
+    }
+    public ExternalUrls playlistExternalUrls(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getImages();
+    }
+    public Owner playlistOwner(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getExternalUrls();
+    }
+    public String playlistSnapshotId(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getPopularity();
+    }
+    public String playlistType(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getGenres();
+    }
+    public String playlistUri(String inputText) throws IOException {
+        return artistsController.artistSearch(inputText).getFirst().getImages();
+    }
 }
