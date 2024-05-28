@@ -19,7 +19,7 @@ public class ArtistsController {
     public String artistIdSearch(String inputText) throws IOException {
         String artistName = NameConverter.spaceEraser(inputText);
         String apiUrl = "https://api.spotify.com/v1/search";
-        String query = "?q=" + artistName + "&type=artist&limit=5";
+        String query = "?q=" + artistName + "&type=artist&limit=10";
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();

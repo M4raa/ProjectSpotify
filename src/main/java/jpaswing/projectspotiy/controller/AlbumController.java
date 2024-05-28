@@ -18,7 +18,7 @@ public class AlbumController {
     public  String albumIdSearch(String inputText) throws IOException {
         String albumName = NameConverter.spaceEraser(inputText);
         String apiUrl = "https://api.spotify.com/v1/search";
-        String query = "?q=" + albumName + "&type=album&limit=15";
+        String query = "?q=" + albumName + "&type=album&limit=10";
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();

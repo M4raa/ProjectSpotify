@@ -18,7 +18,7 @@ public class TrackController {
     public String trackIdSearch(String inputText) throws IOException {
         String trackName = NameConverter.spaceEraser(inputText);
         String apiUrl = "https://api.spotify.com/v1/search";
-        String query = "?q=" + trackName + "&type=track&limit=1";
+        String query = "?q=" + trackName + "&type=track&limit=10";
         String uri = apiUrl + query;
         JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();

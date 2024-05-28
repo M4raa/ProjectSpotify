@@ -38,7 +38,15 @@ public class SearchMethods {
         group.add(albums);
         for (List list : group) {
             for (Object object : list) {
-                System.out.println(object);
+                if (object instanceof Artist) {
+                    System.out.println("Artist - " + ((Artist) object).getName());
+                } else if (object instanceof Album) {
+                    System.out.println("Album - " + ((Album) object).getName());
+                } else if (object instanceof Track) {
+                    System.out.println("Track - " + ((Track) object).getName());
+                } else if (object instanceof Playlist) {
+                    System.out.println("Playlist - " + ((Playlist) object).getName());
+                }
             }
         }
     }
