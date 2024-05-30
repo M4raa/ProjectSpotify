@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SearchPanel extends JPanel {
 
@@ -79,7 +81,7 @@ public class SearchPanel extends JPanel {
     }
 
     private void search(String searchText) throws IOException {
-        List<String> results = searchMethods.grandSearch(searchText);
+        List<Object> results = searchMethods.grandSearch(searchText);
         displayPanel.displayResults(results);
     }
 }
