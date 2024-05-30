@@ -9,13 +9,11 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class DisplayPanel2 extends JPanel {
     private JList<String> resultsList;
-    private DefaultListModel<String> listModel;
+    private DefaultListModel<DisplayItem> listModel;
 
     public DisplayPanel2() {
         setLayout(new BorderLayout());
@@ -33,8 +31,16 @@ public class DisplayPanel2 extends JPanel {
                 if (!e.getValueIsAdjusting()) {
                     int selectedIndex = resultsList.getSelectedIndex();
                     if (selectedIndex != -1) {
-                        String selectedValue = resultsList.getSelectedValue();
-                        if (selectedValue instanceof Artist){
+                        DisplayItem selectedItem = listModel.getElementAt(selectedIndex);
+                        Object originalObject = selectedItem.getOriginalObject();
+
+                        if (originalObject instanceof Artist) {
+
+                        } else if (originalObject instanceof Album) {
+
+                        } else if (originalObject instanceof Track) {
+
+                        } else if (originalObject instanceof Playlist) {
 
                         }
                     }
@@ -50,16 +56,16 @@ public class DisplayPanel2 extends JPanel {
         for (Object result : results) {
             if (result instanceof Artist) {
                 Artist artist = (Artist) result;
-                listModel.addElement("Artist - " + artist.getName());
+                listModel.addElement(new DisplayItem("Artist - " + artist.getName(), artist));
             } else if (result instanceof Album) {
                 Album album = (Album) result;
-                listModel.addElement("Album - " + album.getName());
+                listModel.addElement(new DisplayItem("Album - " + album.getName(), album));
             } else if (result instanceof Track) {
                 Track track = (Track) result;
-                listModel.addElement("Track - " + track.getName());
+                listModel.addElement(new DisplayItem("Track - " + track.getName(), track));
             } else if (result instanceof Playlist) {
                 Playlist playlist = (Playlist) result;
-                listModel.addElement("Playlist - " + playlist.getName());
+                listModel.addElement(new DisplayItem("Playlist - " + playlist.getName(), playlist));
             }
         }
     }
