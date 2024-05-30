@@ -3,7 +3,6 @@ package jpaswing.projectspotiy.utilities;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.controller.AlbumController;
 import jpaswing.projectspotiy.controller.ArtistsController;
-import jpaswing.projectspotiy.controller.playlistController;
 import jpaswing.projectspotiy.controller.PlaylistController;
 import jpaswing.projectspotiy.controller.TrackController;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
@@ -12,9 +11,7 @@ import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 import jpaswing.projectspotiy.entityContent.entity.several.*;
-import org.hibernate.sql.Restriction;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +20,7 @@ import java.util.List;
 @Component
 public class SearchMethods {
     final PlaylistController playlistController = new PlaylistController();
-    final ArtistsController artistsController = new artistsController();
+    final ArtistsController artistsController = new ArtistsController();
     final AlbumController albumController = new AlbumController();
     final TrackController trackController = new TrackController();
     //GENERAL
@@ -106,7 +103,7 @@ public class SearchMethods {
         return trackController.trackById(id).getAvailableMarkets();
     }
     public int trackDiscNumbre(String id) throws IOException {
-        trackController.trackById(id).getDiscNumber();
+        return trackController.trackById(id).getDiscNumber();
     }
     public double trackDurationMs(String id) throws IOException {
         return trackController.trackById(id).getDurationMs();
