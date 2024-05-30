@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,23 @@ public class SearchPanel extends JPanel {
 
         // Añadir los componentes al panel
         add(createSearchPanel(trackSearchField, trackSearchButton), gbc);
+
+        trackSearchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performSearch();
+            }
+        });
+
+        // Agregar KeyListener al campo de búsqueda
+        trackSearchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    performSearch();
+                }
+            }
+        });
     }
 
     private JTextField createSearchField(String hint) {
@@ -67,21 +86,13 @@ public class SearchPanel extends JPanel {
         return panel;
     }
 
-    public void addActionListeners() {
-        trackSearchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    search(trackSearchField.getText());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-    }
-
-    private void search(String searchText) throws IOException {
-        List<Object> results = searchMethods.grandSearch(searchText);
-        displayPanel2.displayResults(results);
+    private void performSearch() {
+        String searchText = trackSearchField.getText();
+        try {
+            List<Object> results = searchMethods.grandSearch(searchText);
+            displayPanel2.displayResults(results);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
