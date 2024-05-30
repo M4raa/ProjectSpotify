@@ -4,20 +4,25 @@ import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
+import jpaswing.projectspotiy.entityContent.entity.several.Image;
+import jpaswing.projectspotiy.entityContent.entity.several.TrackItem;
+import jpaswing.projectspotiy.utilities.SearchMethods;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayPanel2 extends JPanel {
     private JList<String> resultsList;
     private DefaultListModel<DisplayItem> listModel;
+    private SearchMethods searchMethods;
 
     public DisplayPanel2() {
         setLayout(new BorderLayout());
-
+        searchMethods = new SearchMethods();
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
         resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -35,13 +40,20 @@ public class DisplayPanel2 extends JPanel {
                         Object originalObject = selectedItem.getOriginalObject();
 
                         if (originalObject instanceof Artist) {
-
+                            Image image = ((Artist) originalObject).getImages().getFirst();
+                            String name = ((Artist) originalObject).getName();
                         } else if (originalObject instanceof Album) {
-
+                            Image image = ((Album) originalObject).getImages().getFirst();
+                            String name = ((Album) originalObject).getName();
+                            List<Track> tracks = new ArrayList<>(((Album) originalObject).getTracks().getItems());
                         } else if (originalObject instanceof Track) {
-
+                            Image image = ((Track) originalObject).getAlbum().getImages().getFirst();
+                            String name = ((Track) originalObject).getName();
                         } else if (originalObject instanceof Playlist) {
-
+                            Image image = ((Playlist) originalObject).getImages().getFirst();
+                            String name = ((Playlist) originalObject).getName();
+                            List<Track> tracks = new ArrayList<>();
+                            ((Playlist) originalObject).getPlaylistTracks().getItems().forEach(TrackItem -> tracks.add(TrackItem.getTrack()));
                         }
                     }
                 }
