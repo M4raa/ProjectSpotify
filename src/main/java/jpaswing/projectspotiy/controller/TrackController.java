@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
+import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 import jpaswing.projectspotiy.service.UrlConnection;
 import jpaswing.projectspotiy.utilities.JsonConverter;
@@ -34,5 +35,13 @@ public class TrackController {
         JsonObject js = UrlConnection.getUrlConnection(uri);
         JsonArray trackArray = js.getAsJsonArray("tracks");
         return JsonConverter.trackConverter(trackArray);
+    }
+    public Track trackById(String id) throws IOException {
+        String apiUrl = "https://api.spotify.com/v1/tracks/";
+        String query = id;
+        String uri = apiUrl + query;
+        JsonObject js = UrlConnection.getUrlConnection(uri);
+        Gson gson = new Gson();
+        return gson.fromJson(js, Track.class);
     }
 }
