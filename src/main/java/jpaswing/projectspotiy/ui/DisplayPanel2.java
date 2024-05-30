@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayPanel2 extends JPanel {
-    private JList<String> resultsList;
+    private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
     private SearchMethods searchMethods;
 
@@ -42,6 +42,7 @@ public class DisplayPanel2 extends JPanel {
                         if (originalObject instanceof Artist) {
                             Image image = ((Artist) originalObject).getImages().getFirst();
                             String name = ((Artist) originalObject).getName();
+
                         } else if (originalObject instanceof Album) {
                             Image image = ((Album) originalObject).getImages().getFirst();
                             String name = ((Album) originalObject).getName();
@@ -70,8 +71,8 @@ public class DisplayPanel2 extends JPanel {
                 Artist artist = (Artist) result;
                 listModel.addElement(new DisplayItem("Artist - " + artist.getName(), artist));
             } else if (result instanceof Album) {
-                Album album = (Album) result;
-                listModel.addElement(new DisplayItem("Album - " + album.getName(), album));
+                Album album = (Album) originalObject;
+                showAlbumPanels(album);
             } else if (result instanceof Track) {
                 Track track = (Track) result;
                 listModel.addElement(new DisplayItem("Track - " + track.getName(), track));
