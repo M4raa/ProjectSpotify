@@ -19,6 +19,9 @@ public class DisplayPanel2 extends JPanel {
     private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
     private SearchMethods searchMethods;
+    private AlbumPanels albumPanels;
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
 
     public DisplayPanel2() {
         setLayout(new BorderLayout());
@@ -44,9 +47,11 @@ public class DisplayPanel2 extends JPanel {
                             String name = ((Artist) originalObject).getName();
 
                         } else if (originalObject instanceof Album) {
-                            Image image = ((Album) originalObject).getImages().getFirst();
-                            String name = ((Album) originalObject).getName();
-                            List<Track> tracks = new ArrayList<>(((Album) originalObject).getTracks().getItems());
+                            Album album = (Album) originalObject;
+                            Image image = album.getImages().getFirst();
+                            String name = album.getName();
+                            List<Track> tracks = new ArrayList<>(album.getTracks().getItems());
+                            showAlbumPanels(name, tracks);
                         } else if (originalObject instanceof Track) {
                             Image image = ((Track) originalObject).getAlbum().getImages().getFirst();
                             String name = ((Track) originalObject).getName();
@@ -59,6 +64,12 @@ public class DisplayPanel2 extends JPanel {
                     }
                 }
             }
+
+            private void showAlbumPanels(String albumName, List<Track> tracks) {
+                albumPanels.updateContent(albumName, tracks);
+                cardLayout.show(mainPanel, "AlbumPanels");
+            }
+
         });
 
         add(new JScrollPane(resultsList), BorderLayout.CENTER);
@@ -71,8 +82,8 @@ public class DisplayPanel2 extends JPanel {
                 Artist artist = (Artist) result;
                 listModel.addElement(new DisplayItem("Artist - " + artist.getName(), artist));
             } else if (result instanceof Album) {
-                Album album = (Album) originalObject;
-                showAlbumPanels(album);
+                Album album = (Album) result;
+                listModel.addElement(new DisplayItem("Album - " + album.getName(), album));
             } else if (result instanceof Track) {
                 Track track = (Track) result;
                 listModel.addElement(new DisplayItem("Track - " + track.getName(), track));
