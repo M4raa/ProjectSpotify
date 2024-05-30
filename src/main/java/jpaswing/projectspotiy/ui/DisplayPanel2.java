@@ -1,11 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
-import jpaswing.projectspotiy.entityContent.entity.Album;
-import jpaswing.projectspotiy.entityContent.entity.Artist;
-import jpaswing.projectspotiy.entityContent.entity.Playlist;
-import jpaswing.projectspotiy.entityContent.entity.Track;
+import jpaswing.projectspotiy.entityContent.entity.*;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
-import jpaswing.projectspotiy.entityContent.entity.several.TrackItem;
 import jpaswing.projectspotiy.utilities.SearchMethods;
 
 import javax.swing.*;
@@ -33,6 +29,16 @@ public class DisplayPanel2 extends JPanel {
         resultsList.setBackground(new Color(138, 138, 138));
         resultsList.setBorder(BorderFactory.createEmptyBorder());
 
+        albumPanels = new AlbumPanels(); // Inicialización correcta de albumPanels
+
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel(cardLayout);
+
+        mainPanel.add(new JScrollPane(resultsList), "Results");
+        mainPanel.add(albumPanels, "AlbumPanels");
+
+        add(mainPanel, BorderLayout.CENTER);
+
         resultsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -45,34 +51,36 @@ public class DisplayPanel2 extends JPanel {
                         if (originalObject instanceof Artist) {
                             Image image = ((Artist) originalObject).getImages().getFirst();
                             String name = ((Artist) originalObject).getName();
+                            // Acción específica para Artist
+                            JOptionPane.showMessageDialog(DisplayPanel2.this, "Seleccionaste el Artista: " + name);
 
                         } else if (originalObject instanceof Album) {
                             Album album = (Album) originalObject;
                             Image image = album.getImages().getFirst();
                             String name = album.getName();
                             List<Track> tracks = new ArrayList<>(album.getTracks().getItems());
+
                             showAlbumPanels(name, tracks);
                         } else if (originalObject instanceof Track) {
                             Image image = ((Track) originalObject).getAlbum().getImages().getFirst();
                             String name = ((Track) originalObject).getName();
+                            // Acción específica para Track
+                            JOptionPane.showMessageDialog(DisplayPanel2.this, "Seleccionaste la Pista: " + name);
+
                         } else if (originalObject instanceof Playlist) {
-                            Image image = ((Playlist) originalObject).getImages().getFirst();
-                            String name = ((Playlist) originalObject).getName();
+                            Playlist playlist = (Playlist) originalObject;
+                            Image image = playlist.getImages().getFirst();
+                            String name = playlist.getName();
                             List<Track> tracks = new ArrayList<>();
-                            ((Playlist) originalObject).getPlaylistTracks().getItems().forEach(TrackItem -> tracks.add(TrackItem.getTrack()));
+                            playlist.getPlaylistTracks().getItems().forEach(trackItem -> tracks.add(trackItem.getTrack()));
+
+                            // Acción específica para Playlist
+                            JOptionPane.showMessageDialog(DisplayPanel2.this, "Seleccionaste la Lista de Reproducción: " + name);
                         }
                     }
                 }
             }
-
-            private void showAlbumPanels(String albumName, List<Track> tracks) {
-                albumPanels.updateContent(albumName, tracks);
-                cardLayout.show(mainPanel, "AlbumPanels");
-            }
-
         });
-
-        add(new JScrollPane(resultsList), BorderLayout.CENTER);
     }
 
     public void displayResults(List<Object> results) {
@@ -92,5 +100,10 @@ public class DisplayPanel2 extends JPanel {
                 listModel.addElement(new DisplayItem("Playlist - " + playlist.getName(), playlist));
             }
         }
+    }
+
+    private void showAlbumPanels(String albumName, List<Track> tracks) {
+        albumPanels.updateContent(albumName, tracks);
+        cardLayout.show(mainPanel, "AlbumPanels");
     }
 }
