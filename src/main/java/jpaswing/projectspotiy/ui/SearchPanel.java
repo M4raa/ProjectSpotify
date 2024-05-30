@@ -16,10 +16,10 @@ public class SearchPanel extends JPanel {
     private JButton trackSearchButton;
     private JTextField trackSearchField;
     private SearchMethods searchMethods;
-    private DisplayPanel displayPanel;
+    private DisplayPanel2 displayPanel2;
 
-    public SearchPanel(DisplayPanel displayPanel) {
-        this.displayPanel = displayPanel;
+    public SearchPanel(DisplayPanel2 displayPanel2) {
+        this.displayPanel2 = displayPanel2;
         this.searchMethods = new SearchMethods();
         setLayout(new GridBagLayout());
         setBackground(new Color(60, 63, 65)); // Color de fondo gris oscuro
@@ -82,6 +82,6 @@ public class SearchPanel extends JPanel {
 
     private void search(String searchText) throws IOException {
         List<Object> results = searchMethods.grandSearch(searchText);
-        displayPanel.displayResults(results);
+        displayPanel2.displayResults(results);
     }
 }

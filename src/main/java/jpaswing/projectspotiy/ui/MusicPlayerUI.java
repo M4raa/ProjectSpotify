@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class MusicPlayerUI extends JFrame {
     private SearchPanel searchPanel;
-    private DisplayPanel displayPanel;
+    private DisplayPanel2 displayPanel2;
     private PlayerControlsPanel playerControlsPanel;
 
     public MusicPlayerUI() {
@@ -21,24 +21,17 @@ public class MusicPlayerUI extends JFrame {
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
         // Inicializar paneles
-        displayPanel = new DisplayPanel();
-        searchPanel = new SearchPanel(displayPanel);
+        displayPanel2 = new DisplayPanel2();
+        searchPanel = new SearchPanel(displayPanel2);
         playerControlsPanel = new PlayerControlsPanel();
 
         // Añadir los paneles a la ventana
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(searchPanel, BorderLayout.NORTH);
-        getContentPane().add(displayPanel, BorderLayout.CENTER);
+        getContentPane().add(displayPanel2, BorderLayout.CENTER);
         getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
 
         // Añadir ActionListeners a los botones de búsqueda
         searchPanel.addActionListeners();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            MusicPlayerUI ui = new MusicPlayerUI();
-            ui.setVisible(true);
-        });
     }
 }
