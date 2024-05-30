@@ -3,6 +3,7 @@ package jpaswing.projectspotiy.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 
 public class MusicPlayerUI extends JFrame {
     private SearchPanel searchPanel;
@@ -32,6 +33,6 @@ public class MusicPlayerUI extends JFrame {
         getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
 
         // Añadir ActionListeners a los botones de búsqueda
-        searchPanel.addActionListeners();
+        searchPanel.addKeyListener(new KeyAdapter() {});
     }
 }
