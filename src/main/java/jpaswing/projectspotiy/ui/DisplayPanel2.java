@@ -6,7 +6,8 @@ import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 
 import javax.swing.*;
-import javax.swing.text.Utilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,6 +26,21 @@ public class DisplayPanel2 extends JPanel {
         resultsList.setForeground(Color.BLACK);
         resultsList.setBackground(new Color(138, 138, 138));
         resultsList.setBorder(BorderFactory.createEmptyBorder());
+
+        resultsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = resultsList.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        String selectedValue = resultsList.getSelectedValue();
+                        if (selectedValue instanceof Artist){
+
+                        }
+                    }
+                }
+            }
+        });
 
         add(new JScrollPane(resultsList), BorderLayout.CENTER);
     }
