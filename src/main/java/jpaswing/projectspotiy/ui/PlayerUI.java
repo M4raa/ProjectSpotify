@@ -1,28 +1,31 @@
 package jpaswing.projectspotiy.ui;
 
-import jpaswing.projectspotiy.controller.PlaylistController;
-import jpaswing.projectspotiy.controller.TrackController;
-import jpaswing.projectspotiy.entityContent.entity.Playlist;
-import jpaswing.projectspotiy.entityContent.entity.Track;
-import jpaswing.projectspotiy.repository.PlaylistRepo;
-
-import javax.sound.sampled.*;
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class PlayerUI extends JFrame {
     private JPanel reproductorPanel;
     private JButton reproduce, nextSong, previousSong;
-    private ImageIcon btnReproduce, btnNext, btnPrevious;
-    private Clip clip;
-    private JSlider barraRepro;
-    private JLabel etiqueta = new JLabel();
+    private JSlider volumeSlider;
+    private MediaPlayer mediaPlayer;
     private String url;
+    private DoubleProperty volume = new SimpleDoubleProperty(0.3); // Volumen inicial al máximo
 
     public PlayerUI(String url) {
         initUI();
@@ -31,7 +34,7 @@ public class PlayerUI extends JFrame {
 
     private void initUI() {
         setTitle("PLAYER");
-        setSize(800, 150);
+        setSize(800, 200);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -40,11 +43,30 @@ public class PlayerUI extends JFrame {
         reproductorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         initButtons();
 
+        volumeSlider = new JSlider(0, 100, 100);
+        volumeSlider.setPreferredSize(new Dimension(200, 50));
+        volumeSlider.setOpaque(false);
+        volumeSlider.addChangeListener(e -> {
+            volume.set(volumeSlider.getValue() / 100.0);
+        });
+
         reproductorPanel.add(previousSong);
         reproductorPanel.add(reproduce);
         reproductorPanel.add(nextSong);
+        reproductorPanel.add(volumeSlider);
 
         add(reproductorPanel);
+
+        // Inicializa la Toolkit de JavaFX
+        initFX();
+    }
+
+    private void initFX() {
+        // Inicializa un JFXPanel para inicializar la Toolkit de JavaFX
+        new JFXPanel();
+        Platform.runLater(() -> {
+            // Este código se ejecutará en el hilo de JavaFX después de que la Toolkit esté inicializada
+        });
     }
 
     private void initButtons() {
@@ -56,14 +78,11 @@ public class PlayerUI extends JFrame {
         reproduce.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clip != null && clip.isRunning()) {
-                    clip.stop();
-                    clip.close();
+                if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.stop();
                 } else {
-
-                    String previewUrl = url;
                     try {
-                        playAudio(previewUrl);
+                        playAudio(url);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -85,22 +104,32 @@ public class PlayerUI extends JFrame {
         return button;
     }
 
-    private void playAudio(String audioUrl) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        URL url = new URL(audioUrl);
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(url.openStream()));
-        clip = AudioSystem.getClip();
-        clip.open(audioStream);
-        clip.start();
-    }
+    private void playAudio(String urlSong) throws LineUnavailableException {
+        if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            mediaPlayer.stop();
+        }
+        try {
+            URL url = new URL(urlSong);
+            URLConnection conexion = url.openConnection();
+            InputStream entrada = conexion.getInputStream();
+            File archivoTemporal = File.createTempFile("temporal_song", ".mp3");
 
-    /*public static void main(String[] args){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                String url = "https://www.google.com/";
-                PlayerUI playerUI = new PlayerUI(url);
-                playerUI.setVisible(true);
+            BufferedOutputStream salida = new BufferedOutputStream(new FileOutputStream(archivoTemporal));
+
+            byte[] buffer = new byte[1024];
+            int longitud;
+            while ((longitud = entrada.read(buffer)) != -1) {
+                salida.write(buffer, 0, longitud);
             }
-        });
-    }*/
+            salida.close();
+            entrada.close();
+
+            Media media = new Media(archivoTemporal.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.volumeProperty().bind(volume); // Vincula el volumen del MediaPlayer con la propiedad volume
+            mediaPlayer.play();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

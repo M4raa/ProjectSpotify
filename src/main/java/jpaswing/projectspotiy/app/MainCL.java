@@ -5,13 +5,11 @@ import jpaswing.projectspotiy.controller.ArtistsController;
 import jpaswing.projectspotiy.controller.PlaylistController;
 import jpaswing.projectspotiy.controller.TrackController;
 import jpaswing.projectspotiy.ui.MusicPlayerUI;
-import jpaswing.projectspotiy.ui.PlayerUI2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import java.awt.*;
-import java.io.IOException;
 @Component
 @ComponentScan(basePackages = "jpaswing")
 public class MainCL implements CommandLineRunner {
@@ -27,7 +25,7 @@ public class MainCL implements CommandLineRunner {
         this.trackController = trackController;
     }
     @Override
-    public void run(String... args) throws IOException {
+    public void run(String... args) {
         EventQueue.invokeLater(()  -> {
                 new MusicPlayerUI().setVisible(true);
         });
