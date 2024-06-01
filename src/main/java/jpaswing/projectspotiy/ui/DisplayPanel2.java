@@ -60,7 +60,9 @@ public class DisplayPanel2 extends JPanel {
                             String name = album.getName();
                             List<Track> tracks = new ArrayList<>(album.getTracks().getItems());
 
-                            showAlbumPanels(name, tracks);
+                            //Accion con albums
+                            showAlbumPanels(name,image,tracks);
+
                         } else if (originalObject instanceof Track) {
                             Image image = ((Track) originalObject).getAlbum().getImages().getFirst();
                             String name = ((Track) originalObject).getName();
@@ -102,7 +104,7 @@ public class DisplayPanel2 extends JPanel {
         }
     }
 
-    private void showAlbumPanels(String albumName, List<Track> tracks) {
+    private void showAlbumPanels(String albumName,Image image, List<Track> tracks) {
         albumPanels.updateContent(albumName, tracks);
         cardLayout.show(mainPanel, "AlbumPanels");
     }
