@@ -82,7 +82,7 @@ public class DisplayPanel2 extends JPanel {
                     }
                 }
             }
-        });
+        }); 
     }
 
     public void displayResults(List<Object> results) {
@@ -105,7 +105,7 @@ public class DisplayPanel2 extends JPanel {
     }
 
     private void showAlbumPanels(String albumName,Image image, List<Track> tracks) {
-        albumPanels.updateContent(albumName, tracks);
+        albumPanels.updateContent(albumName, tracks, image);
         cardLayout.show(mainPanel, "AlbumPanels");
     }
 }

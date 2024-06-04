@@ -23,7 +23,7 @@ public class AlbumPanels extends JPanel {
         add(albumPanel2);
     }
 
-    public void updateContent(String albumName, List<Track> tracks) {
+    public void updateContent(String albumName, List<Track> tracks, Image image) {
         ((JLabel) albumPanel1.getComponent(0)).setText("Panel 1 del álbum: " + albumName);
         ((JLabel) albumPanel2.getComponent(0)).setText("Panel 2 del álbum: " + albumName);
     }

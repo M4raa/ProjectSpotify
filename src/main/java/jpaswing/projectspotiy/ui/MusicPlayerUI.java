@@ -30,7 +30,7 @@ public class MusicPlayerUI extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(searchPanel, BorderLayout.NORTH);
         getContentPane().add(displayPanel2, BorderLayout.CENTER);
-        getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
+        //getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
 
         // Añadir ActionListeners a los botones de búsqueda
         searchPanel.addKeyListener(new KeyAdapter() {});
