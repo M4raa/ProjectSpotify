@@ -14,14 +14,14 @@ public class PlayerControlsPanel extends JPanel {
 
     public PlayerControlsPanel() {
         setLayout(new GridBagLayout());
-        setBackground(new Color(60, 63, 65)); // Color de fondo gris oscuro
+        setBackground(new Color(248, 203, 166)); // Player background color
 
-        previousButton = createButton("src/main/resources/icons/previous.png");
-        playButton = createButton("src/main/resources/icons/play.png");
-        nextButton = createButton("src/main/resources/icons/next.png");
-        volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-        volumeSlider.setBackground(new Color(60, 63, 65)); // Color de fondo gris oscuro
-        volumeSlider.setForeground(Color.WHITE); // Color del texto blanco
+        previousButton = createButton("src/main/resources/icons/backward-button.png");
+        playButton = createButton("src/main/resources/icons/play-button.png");
+        nextButton = createButton("src/main/resources/icons/forward-button.png");
+        volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        volumeSlider.setBackground(new Color(236, 249, 255)); // Volume slider backgorund color
+        volumeSlider.setForeground(Color.BLACK); // Color del texto blanco
 
         GridBagConstraints gbcBottom = new GridBagConstraints();
         gbcBottom.fill = GridBagConstraints.HORIZONTAL;
@@ -67,5 +67,17 @@ public class PlayerControlsPanel extends JPanel {
         button.setContentAreaFilled(false); // No rellena el área del botón
         button.setMargin(new Insets(10, 10, 10, 10)); // Márgenes internos del botón
         return button;
+    }
+    public class Main {
+        public static void main(String[] args) {
+            // Ejecutar la interfaz gráfica en el hilo de despacho de eventos
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    // Crear una instancia de MusicPlayerUI y hacerla visible
+                    MusicPlayerUI playerUI = new MusicPlayerUI();
+                    playerUI.setVisible(true);
+                }
+            });
+        }
     }
 }

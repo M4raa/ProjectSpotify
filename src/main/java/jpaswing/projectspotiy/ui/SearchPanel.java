@@ -9,9 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SearchPanel extends JPanel {
 
@@ -26,22 +24,35 @@ public class SearchPanel extends JPanel {
         this.displayPanel2 = displayPanel2;
         this.searchMethods = new SearchMethods();
         setLayout(new GridBagLayout());
-        setBackground(new Color(60, 63, 65)); // Color de fondo gris oscuro
+        setBackground(new Color(248, 203, 166)); // Color de fondo gris oscuro
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Márgenes alrededor del panel
 
         // Inicialización y configuración de los botones de navegación
-        backButton = createNavigationButton("◀");
-        backButton.setEnabled(false); // Desactivar el botón de retroceso inicialmente
-        forwardButton = createNavigationButton("▶");
-        forwardButton.setEnabled(false); // Desactivar el botón de avance inicialmente
+        //Back button
+        backButton = createNavigationButton("");
+        backButton.setPreferredSize(new Dimension(30, 30));
+        ImageIcon icon = new ImageIcon("src/main/resources/icons/left-arrow.png");
+        Image image = icon.getImage();
+        Image newimg = image.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
+        ImageIcon iconEscalado = new ImageIcon(newimg);
+        backButton.setIcon(iconEscalado);
+
+        //Forward button
+        forwardButton = createNavigationButton("");
+        forwardButton.setPreferredSize(new Dimension(30, 30));
+        ImageIcon icon1 = new ImageIcon("src/main/resources/icons/right-arrow.png");
+        Image image1 = icon1.getImage();
+        Image newimg1 = image1.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
+        ImageIcon iconEscalado1 = new ImageIcon(newimg1);
+        forwardButton.setIcon(iconEscalado1);
+
         // Añadir los botones de navegación al panel de búsqueda con un espacio entre ellos
         add(backButton);
-        add(Box.createRigidArea(new Dimension(10, 0))); // Espacio horizontal entre los botones
         add(forwardButton);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 0, 5, 0); // Espacio entre los componentes
+        gbc.insets = new Insets(0, 5, 0, 5); // Espacio entre los componentes
         gbc.weightx = 1;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
@@ -72,9 +83,8 @@ public class SearchPanel extends JPanel {
 
     private JTextField createSearchField(String hint) {
         JTextField field = new JTextField(hint);
-        field.setBackground(new Color(220, 220, 220)); // Color de fondo pastel claro
+        field.setBackground(new Color(255, 251, 235)); // Color de fondo pastel claro
         field.setBorder(BorderFactory.createLineBorder(Color.GRAY)); // Borde gris
-        field.setForeground(Color.BLACK); // Color del texto negro
         field.setFont(new Font("Arial", Font.PLAIN, 14)); // Fuente Arial, tamaño 14
         field.setPreferredSize(new Dimension(150, 30)); // Tamaño preferido
         return field;
@@ -82,10 +92,8 @@ public class SearchPanel extends JPanel {
 
     private JButton createSearchButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(new Color(220, 220, 220)); // Color de fondo pastel claro
-        button.setForeground(Color.BLACK); // Color del texto negro
+        button.setBackground(new Color(255, 231, 204)); // Color de fondo pastel claro
         button.setFocusPainted(false); // Elimina el borde al ganar el foco
-        button.setBorderPainted(false); // Elimina el borde
         button.setFont(new Font("Arial", Font.PLAIN, 14)); // Fuente Arial, tamaño 14
         button.setPreferredSize(new Dimension(75, 30)); // Tamaño preferido
         return button;

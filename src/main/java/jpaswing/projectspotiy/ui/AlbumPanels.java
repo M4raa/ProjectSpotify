@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.entityContent.entity.Track;
+import jpaswing.projectspotiy.entityContent.entity.several.Image;
 
 import javax.swing.*;
 import java.awt.*;

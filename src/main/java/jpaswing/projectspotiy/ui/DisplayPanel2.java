@@ -26,7 +26,7 @@ public class DisplayPanel2 extends JPanel {
         resultsList = new JList<>(listModel);
         resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         resultsList.setForeground(Color.BLACK);
-        resultsList.setBackground(new Color(138, 138, 138));
+        resultsList.setBackground(new Color(236, 249, 255));
         resultsList.setBorder(BorderFactory.createEmptyBorder());
 
         albumPanels = new AlbumPanels(); // Inicialización correcta de albumPanels
@@ -67,7 +67,7 @@ public class DisplayPanel2 extends JPanel {
                             Image image = ((Track) originalObject).getAlbum().getImages().getFirst();
                             String name = ((Track) originalObject).getName();
                             // Acción específica para Track
-                            JOptionPane.showMessageDialog(DisplayPanel2.this, "Seleccionaste la Pista: " + name);
+                            ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel2.this)).startPlayerControlsPanel();
 
                         } else if (originalObject instanceof Playlist) {
                             Playlist playlist = (Playlist) originalObject;

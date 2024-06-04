@@ -15,7 +15,8 @@ public class MusicPlayerUI extends JFrame {
     }
 
     private void initializeUI() {
-        setTitle("Music Player");
+        setTitle("BANANAA");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/icons/main-icon.jpeg"));
         setSize(800, 600);
         setMinimumSize(new Dimension(600, 400)); // Tamaño mínimo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,4 +36,13 @@ public class MusicPlayerUI extends JFrame {
         // Añadir ActionListeners a los botones de búsqueda
         searchPanel.addKeyListener(new KeyAdapter() {});
     }
+    public void startPlayerControlsPanel() {
+        if (playerControlsPanel == null) {
+            playerControlsPanel = new PlayerControlsPanel();
+        }
+        getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
+        validate();
+        repaint();
+    }
+
 }
