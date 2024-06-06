@@ -1,26 +1,31 @@
 package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.entityContent.entity.*;
-import jpaswing.projectspotiy.entityContent.entity.several.Image;
 import jpaswing.projectspotiy.service.Globals;
+import jpaswing.projectspotiy.ui.Panels.AlbumPanels;
+import jpaswing.projectspotiy.ui.Panels.ArtistPanels;
+import jpaswing.projectspotiy.ui.Panels.PlaylistPanels;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 public class DisplayPanel2 extends JPanel {
     private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
     private AlbumPanels albumPanels;
+    private PlaylistPanels playlistPanel;
+    private ArtistPanels artistPanels;
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private Globals globals;
+    private String currentScreen = null;
 
     public DisplayPanel2(Globals globals) {
         this.globals = globals;
+        this.currentScreen = currentScreen;
         setLayout(new BorderLayout());
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
@@ -39,9 +44,8 @@ public class DisplayPanel2 extends JPanel {
 
         add(mainPanel, BorderLayout.CENTER);
 
-        resultsList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
+        if(currentScreen == null) {
+            resultsList.addListSelectionListener(e -> {
                 if (!e.getValueIsAdjusting()) {
                     int selectedIndex = resultsList.getSelectedIndex();
                     if (selectedIndex != -1) {
@@ -52,30 +56,47 @@ public class DisplayPanel2 extends JPanel {
                             globals.setCurrentArtist((Artist) originalObject);
 
                             // Acción específica para Artist
-
+                            currentScreen = "artist";
+                            try {
+                                showArtistPanels(globals.getCurrentArtist());
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
 
                         } else if (originalObject instanceof Album) {
                             globals.setCurrentAlbum((Album) originalObject);
 
                             //Accion con albums
-                            showAlbumPanels();
+                            currentScreen = "album";
+                            try {
+                                showAlbumPanels(globals.getCurrentAlbum());
+                            } catch (MalformedURLException ex) {
+                                throw new RuntimeException(ex);
+                            }
 
                         } else if (originalObject instanceof Track) {
                             globals.setCurrentTrack((Track) originalObject);
 
                             // Acción específica para Track
+                            currentScreen = "track";
                             ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel2.this)).startPlayerControlsPanel();
 
                         } else if (originalObject instanceof Playlist) {
                             globals.setCurrentPlaylist((Playlist) originalObject);
 
                             // Acción específica para Playlist
+                            currentScreen = "playlist";
+                            try {
+                                showPlaylistPanels(globals.getCurrentPlaylist());
+                            } catch (MalformedURLException ex) {
+                                throw new RuntimeException(ex);
+                            }
 
                         }
                     }
                 }
-            }
-        }); 
+            });
+        }
     }
 
     public void displayResults(List<Object> results) {
@@ -97,8 +118,16 @@ public class DisplayPanel2 extends JPanel {
         }
     }
 
-    private void showAlbumPanels(Album album) {
+    private void showAlbumPanels(Album album) throws MalformedURLException {
         albumPanels.updateContent(album);
         cardLayout.show(mainPanel, "AlbumPanels");
+    }
+    private void showPlaylistPanels(Playlist playlist) throws MalformedURLException {
+        playlistPanel.updateContent(playlist);
+        cardLayout.show(mainPanel, "PlaylistPanels");
+    }
+    private void showArtistPanels(Artist artist) throws IOException {
+        artistPanels.updateContent(artist);
+        cardLayout.show(mainPanel, "ArtistPanels");
     }
 }
