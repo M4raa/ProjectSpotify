@@ -1,5 +1,6 @@
 package jpaswing.projectspotiy.ui;
 
+import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
 
@@ -24,7 +25,7 @@ public class AlbumPanels extends JPanel {
         add(albumPanel2);
     }
 
-    public void updateContent(String albumName, List<Track> tracks, Image image) {
+    public void updateContent(Album album) {
         ((JLabel) albumPanel1.getComponent(0)).setText("Panel 1 del álbum: " + albumName);
         ((JLabel) albumPanel2.getComponent(0)).setText("Panel 2 del álbum: " + albumName);
     }

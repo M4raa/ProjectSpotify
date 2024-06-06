@@ -1,5 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
+import jpaswing.projectspotiy.service.Globals;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
@@ -11,8 +13,11 @@ import java.awt.event.FocusEvent;
 public class PlayerControlsPanel extends JPanel {
     private JButton previousButton, playButton, nextButton;
     private JSlider volumeSlider;
+    private Globals globals;
 
-    public PlayerControlsPanel() {
+    public PlayerControlsPanel(Globals globals)
+     {
+        this.globals = globals;
         setLayout(new GridBagLayout());
         setBackground(new Color(248, 203, 166)); // Player background color
 
@@ -68,7 +73,7 @@ public class PlayerControlsPanel extends JPanel {
         button.setMargin(new Insets(10, 10, 10, 10)); // Márgenes internos del botón
         return button;
     }
-    public class Main {
+    /*public class Main {
         public static void main(String[] args) {
             // Ejecutar la interfaz gráfica en el hilo de despacho de eventos
             javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -79,5 +84,5 @@ public class PlayerControlsPanel extends JPanel {
                 }
             });
         }
-    }
+    }*/
 }

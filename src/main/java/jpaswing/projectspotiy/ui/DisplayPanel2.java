@@ -2,7 +2,7 @@ package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.entityContent.entity.*;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
-import jpaswing.projectspotiy.utilities.SearchMethods;
+import jpaswing.projectspotiy.service.Globals;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -14,14 +14,14 @@ import java.util.List;
 public class DisplayPanel2 extends JPanel {
     private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
-    private SearchMethods searchMethods;
     private AlbumPanels albumPanels;
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private Globals globals;
 
-    public DisplayPanel2() {
+    public DisplayPanel2(Globals globals) {
+        this.globals = globals;
         setLayout(new BorderLayout());
-        searchMethods = new SearchMethods();
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
         resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -49,35 +49,28 @@ public class DisplayPanel2 extends JPanel {
                         Object originalObject = selectedItem.getOriginalObject();
 
                         if (originalObject instanceof Artist) {
-                            Image image = ((Artist) originalObject).getImages().getFirst();
-                            String name = ((Artist) originalObject).getName();
+                            globals.setCurrentArtist((Artist) originalObject);
+
                             // Acción específica para Artist
-                            JOptionPane.showMessageDialog(DisplayPanel2.this, "Seleccionaste el Artista: " + name);
+
 
                         } else if (originalObject instanceof Album) {
-                            Album album = (Album) originalObject;
-                            Image image = album.getImages().getFirst();
-                            String name = album.getName();
-                            List<Track> tracks = new ArrayList<>(album.getTracks().getItems());
+                            globals.setCurrentAlbum((Album) originalObject);
 
                             //Accion con albums
-                            showAlbumPanels(name,image,tracks);
+                            showAlbumPanels();
 
                         } else if (originalObject instanceof Track) {
-                            Image image = ((Track) originalObject).getAlbum().getImages().getFirst();
-                            String name = ((Track) originalObject).getName();
+                            globals.setCurrentTrack((Track) originalObject);
+
                             // Acción específica para Track
                             ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel2.this)).startPlayerControlsPanel();
 
                         } else if (originalObject instanceof Playlist) {
-                            Playlist playlist = (Playlist) originalObject;
-                            Image image = playlist.getImages().getFirst();
-                            String name = playlist.getName();
-                            List<Track> tracks = new ArrayList<>();
-                            playlist.getPlaylistTracks().getItems().forEach(trackItem -> tracks.add(trackItem.getTrack()));
+                            globals.setCurrentPlaylist((Playlist) originalObject);
 
                             // Acción específica para Playlist
-                            JOptionPane.showMessageDialog(DisplayPanel2.this, "Seleccionaste la Lista de Reproducción: " + name);
+
                         }
                     }
                 }
@@ -104,8 +97,8 @@ public class DisplayPanel2 extends JPanel {
         }
     }
 
-    private void showAlbumPanels(String albumName,Image image, List<Track> tracks) {
-        albumPanels.updateContent(albumName, tracks, image);
+    private void showAlbumPanels(Album album) {
+        albumPanels.updateContent(album);
         cardLayout.show(mainPanel, "AlbumPanels");
     }
 }

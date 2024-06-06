@@ -4,6 +4,7 @@ import jpaswing.projectspotiy.controller.AlbumController;
 import jpaswing.projectspotiy.controller.ArtistsController;
 import jpaswing.projectspotiy.controller.PlaylistController;
 import jpaswing.projectspotiy.controller.TrackController;
+import jpaswing.projectspotiy.service.Globals;
 import jpaswing.projectspotiy.ui.MusicPlayerUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,17 +18,21 @@ public class MainCL implements CommandLineRunner {
     private final ArtistsController artistsController;
     private final PlaylistController playlistController;
     private final TrackController trackController;
+    private final Globals globals;
     @Autowired
-    public MainCL(AlbumController albumController, ArtistsController artistsController, PlaylistController playlistController, TrackController trackController) {
+    public MainCL(AlbumController albumController, ArtistsController artistsController, PlaylistController playlistController,
+                  TrackController trackController,
+                  Globals globals) {
         this.albumController = albumController;
         this.artistsController = artistsController;
         this.playlistController = playlistController;
         this.trackController = trackController;
+        this.globals = globals;
     }
     @Override
     public void run(String... args) {
         EventQueue.invokeLater(()  -> {
-                new MusicPlayerUI().setVisible(true);
+                new MusicPlayerUI(globals).setVisible(true);
         });
     }
 
