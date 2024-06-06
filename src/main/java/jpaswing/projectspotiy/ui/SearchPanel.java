@@ -16,12 +16,12 @@ public class SearchPanel extends JPanel {
     private JButton trackSearchButton;
     private JTextField trackSearchField;
     private SearchMethods searchMethods;
-    private DisplayPanel2 displayPanel2;
+    private DisplayPanel displayPanel;
     private JButton backButton;
     private JButton forwardButton;
 
-    public SearchPanel(DisplayPanel2 displayPanel2) {
-        this.displayPanel2 = displayPanel2;
+    public SearchPanel(DisplayPanel displayPanel) {
+        this.displayPanel = displayPanel;
         this.searchMethods = new SearchMethods();
         setLayout(new GridBagLayout());
         setBackground(new Color(248, 203, 166)); // Color de fondo gris oscuro
@@ -31,20 +31,41 @@ public class SearchPanel extends JPanel {
         //Back button
         backButton = createNavigationButton("");
         backButton.setPreferredSize(new Dimension(30, 30));
+        backButton.setBackground(new Color(255,true));
+        backButton.setBorderPainted(false);
         ImageIcon icon = new ImageIcon("src/main/resources/icons/left-arrow.png");
         Image image = icon.getImage();
         Image newimg = image.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
         ImageIcon iconEscalado = new ImageIcon(newimg);
         backButton.setIcon(iconEscalado);
 
+        //Back Button Listener
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performSearch();
+            }
+        });
+
+
         //Forward button
         forwardButton = createNavigationButton("");
         forwardButton.setPreferredSize(new Dimension(30, 30));
+        forwardButton.setBackground(new Color(255,true));
+        forwardButton.setBorderPainted(false);
         ImageIcon icon1 = new ImageIcon("src/main/resources/icons/right-arrow.png");
         Image image1 = icon1.getImage();
         Image newimg1 = image1.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
         ImageIcon iconEscalado1 = new ImageIcon(newimg1);
         forwardButton.setIcon(iconEscalado1);
+
+        //Forward Button Listener
+        forwardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performSearch();
+            }
+        });
 
         // Añadir los botones de navegación al panel de búsqueda con un espacio entre ellos
         add(backButton);
@@ -58,7 +79,7 @@ public class SearchPanel extends JPanel {
 
         // Configuración de cada conjunto de campo de búsqueda y botón
         trackSearchField = createSearchField("");
-        trackSearchButton = createSearchButton("Enter");
+        trackSearchButton = createSearchButton("Search");
 
         // Añadir los componentes al panel
         add(createSearchPanel(trackSearchField, trackSearchButton), gbc);
@@ -70,7 +91,7 @@ public class SearchPanel extends JPanel {
             }
         });
 
-        // Agregar KeyListener al campo de búsqueda
+        //Enter KeyListener
         trackSearchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -121,7 +142,7 @@ public class SearchPanel extends JPanel {
         String searchText = trackSearchField.getText();
         try {
             List<Object> results = searchMethods.grandSearch(searchText);
-            displayPanel2.displayResults(results);
+            displayPanel.displayResults(results);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

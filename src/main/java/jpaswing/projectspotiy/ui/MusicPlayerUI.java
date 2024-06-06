@@ -9,7 +9,7 @@ import java.awt.event.KeyAdapter;
 
 public class MusicPlayerUI extends JFrame {
     private SearchPanel searchPanel;
-    private DisplayPanel2 displayPanel2;
+    private DisplayPanel displayPanel;
     private PlayerControlsPanel playerControlsPanel;
     private Globals globals;
     public MusicPlayerUI(Globals globals) {
@@ -25,14 +25,14 @@ public class MusicPlayerUI extends JFrame {
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
         // Inicializar paneles
-        displayPanel2 = new DisplayPanel2(globals);
-        searchPanel = new SearchPanel(displayPanel2);
+        displayPanel = new DisplayPanel(globals);
+        searchPanel = new SearchPanel(displayPanel);
         playerControlsPanel = new PlayerControlsPanel(globals);
 
         // Añadir los paneles a la ventana
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(searchPanel, BorderLayout.NORTH);
-        getContentPane().add(displayPanel2, BorderLayout.CENTER);
+        getContentPane().add(displayPanel, BorderLayout.CENTER);
         //getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
 
         // Añadir ActionListeners a los botones de búsqueda
