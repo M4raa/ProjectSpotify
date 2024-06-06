@@ -1,6 +1,7 @@
 package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.entityContent.entity.*;
+import jpaswing.projectspotiy.service.ApiResponseHandler;
 import jpaswing.projectspotiy.service.Globals;
 import jpaswing.projectspotiy.ui.Panels.AlbumPanels;
 import jpaswing.projectspotiy.ui.Panels.ArtistPanels;
@@ -10,25 +11,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
 public class DisplayPanel extends JPanel {
     private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
-    private AlbumPanels albumPanels;
+    private AlbumPanels albumPanel;
     private PlaylistPanels playlistPanel;
-    private ArtistPanels artistPanels;
+    private ArtistPanels artistPanel;
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private Globals globals;
-    private String currentScreen = null;
-    private Stack<String> viewStack;
-    private Stack<String> forwardStack;
+    private String currentScreen = "Results";
+    private Stack<CardLayout> currentStack;
+    private Stack<CardLayout> forwardStack;
+    private ApiResponseHandler apiResponseHandler;
 
     public DisplayPanel(Globals globals) {
+        this.apiResponseHandler = new ApiResponseHandler();
         this.globals = globals;
-        this.currentScreen = currentScreen;
         setLayout(new BorderLayout());
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
@@ -36,76 +39,78 @@ public class DisplayPanel extends JPanel {
         resultsList.setForeground(Color.BLACK);
         resultsList.setBackground(new Color(236, 249, 255));
         resultsList.setBorder(BorderFactory.createEmptyBorder());
+
         //Panels initialitation
         playlistPanel = new PlaylistPanels();
-        artistPanels = new ArtistPanels();
-        albumPanels = new AlbumPanels();
-
+        artistPanel = new ArtistPanels();
+        albumPanel = new AlbumPanels();
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
         mainPanel.add(new JScrollPane(resultsList), "Results");
-        mainPanel.add(albumPanels, "AlbumPanels");
+        mainPanel.add(albumPanel, "AlbumPanels");
         mainPanel.add(playlistPanel, "PlaylistPanel");
-        mainPanel.add(artistPanels, "ArtistPanels");
+        mainPanel.add(artistPanel, "ArtistPanels");
 
         add(mainPanel, BorderLayout.CENTER);
-        viewStack = new Stack<>();
+        currentStack = new Stack<>();
         forwardStack = new Stack<>();
 
-        if(currentScreen == null) {
-            resultsList.addListSelectionListener(e -> {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedIndex = resultsList.getSelectedIndex();
-                    if (selectedIndex != -1) {
-                        DisplayItem selectedItem = listModel.getElementAt(selectedIndex);
-                        Object originalObject = selectedItem.getOriginalObject();
+        resultsList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedIndex = resultsList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    DisplayItem selectedItem = listModel.getElementAt(selectedIndex);
+                    Object originalObject = selectedItem.getOriginalObject();
 
-                        if (originalObject instanceof Artist) {
-                            globals.setCurrentArtist((Artist) originalObject);
+                    if (originalObject instanceof Artist) {
+                        globals.setCurrentArtist((Artist) originalObject);
 
-                            // Acción específica para Artist
-                            currentScreen = "artist";
-                            try {
-                                showArtistPanels(globals.getCurrentArtist());
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
-
-                        } else if (originalObject instanceof Album) {
-                            globals.setCurrentAlbum((Album) originalObject);
-
-                            //Accion con albums
-                            currentScreen = "album";
-                            try {
-                                showAlbumPanels(globals.getCurrentAlbum());
-                            } catch (MalformedURLException ex) {
-                                throw new RuntimeException(ex);
-                            }
-
-                        } else if (originalObject instanceof Track) {
-                            globals.setCurrentTrack((Track) originalObject);
-
-                            // Acción específica para Track
-                            currentScreen = "track";
-                            ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerControlsPanel();
-
-                        } else if (originalObject instanceof Playlist) {
-                            globals.setCurrentPlaylist((Playlist) originalObject);
-
-                            // Acción específica para Playlist
-                            currentScreen = "playlist";
-                            try {
-                                showPlaylistPanels(globals.getCurrentPlaylist());
-                            } catch (MalformedURLException ex) {
-                                throw new RuntimeException(ex);
-                            }
-
+                        // Actions for artist
+                        currentScreen = "artist";
+                        apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentArtist()));
+                        try {
+                            showArtistPanels(globals.getCurrentArtist());
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
                         }
+
+                    } else if (originalObject instanceof Album) {
+                        globals.setCurrentAlbum((Album) originalObject);
+
+                        // Actions for album
+                        currentScreen = "album";
+                        apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentAlbum()));
+                        try {
+                            showAlbumPanels(globals.getCurrentAlbum());
+                        } catch (MalformedURLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                    } else if (originalObject instanceof Track) {
+                        globals.setCurrentTrack((Track) originalObject);
+
+                        // Actions for track
+                        currentScreen = "track";
+                        ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerControlsPanel();
+
+                    } else if (originalObject instanceof Playlist) {
+                        globals.setCurrentPlaylist((Playlist) originalObject);
+
+                        // Actions for playlist
+                        currentScreen = "playlist";
+                        apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentPlaylist()));
+                        try {
+                            showPlaylistPanels(globals.getCurrentPlaylist());
+                        } catch (MalformedURLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
                     }
                 }
-            });
-        }
+            }
+        });
+
     }
 
     public void displayResults(List<Object> results) {
@@ -125,33 +130,37 @@ public class DisplayPanel extends JPanel {
                 listModel.addElement(new DisplayItem("Playlist - " + playlist.getName(), playlist));
             }
         }
+        apiResponseHandler.pushBackHistory(results);
     }
-    private void lastPanel(){
-        if (!viewStack.isEmpty()) {
-            forwardStack.push(currentScreen);
-            String previousScreen = viewStack.pop();
-            cardLayout.show(mainPanel, previousScreen);
-            currentScreen = previousScreen;
-        }
-    }
-    private void nextPanel(){
-        if (!forwardStack.isEmpty()) {
-            viewStack.push(currentScreen);
-            String nextScreen = forwardStack.pop();
-            cardLayout.show(mainPanel, nextScreen);
-            currentScreen = nextScreen;
-        }
-    }
+
     private void showAlbumPanels(Album album) throws MalformedURLException {
-        albumPanels.updateContent(album);
+        albumPanel.updateContent(album);
         cardLayout.show(mainPanel, "AlbumPanels");
     }
+
     private void showPlaylistPanels(Playlist playlist) throws MalformedURLException {
         playlistPanel.updateContent(playlist);
         cardLayout.show(mainPanel, "PlaylistPanels");
     }
+
     private void showArtistPanels(Artist artist) throws IOException {
-        artistPanels.updateContent(artist);
+        artistPanel.updateContent(artist);
         cardLayout.show(mainPanel, "ArtistPanels");
+    }
+
+    public void lastPanel() {
+        if (!apiResponseHandler.isEmptyBackHistory()) {
+            apiResponseHandler.pushForwardHistory(apiResponseHandler.getCurrent());
+            apiResponseHandler.popBackHistory();
+            apiResponseHandler.setCurrent();
+        }
+    }
+
+    public void nextPanel() {
+        if (!apiResponseHandler.isEmptyBackHistory()) {
+            apiResponseHandler.pushBackHistory(apiResponseHandler.peekForwardHistory());
+            apiResponseHandler.popForwardHistory();
+            apiResponseHandler.setCurrent();
+        }
     }
 }

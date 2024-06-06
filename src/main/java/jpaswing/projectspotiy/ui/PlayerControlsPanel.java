@@ -5,10 +5,6 @@ import jpaswing.projectspotiy.service.Globals;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class PlayerControlsPanel extends JPanel {
     private JButton previousButton, playButton, nextButton;
@@ -42,7 +38,7 @@ public class PlayerControlsPanel extends JPanel {
         volumeSlider.setUI(new BasicSliderUI(volumeSlider) {
             @Override
             protected Dimension getThumbSize() {
-                return new Dimension(20, 20); // Tamaño de la bolita
+                return new Dimension(10, 10); // Tamaño de la bolita
             }
 
             @Override
@@ -51,7 +47,7 @@ public class PlayerControlsPanel extends JPanel {
                 int thumbX = thumbBounds.x + thumbBounds.width / 2 - 10; // Centra la bolita horizontalmente
                 int thumbY = thumbBounds.y + thumbBounds.height / 2 - 10; // Centra la bolita verticalmente
                 g.setColor(Color.WHITE); // Color de la bolita
-                g.fillOval(thumbX, thumbY, 20, 20); // Dibuja la bolita
+                g.fillOval(thumbX, thumbY, 10, 10); // Dibuja la bolita
             }
 
             @Override
@@ -73,16 +69,4 @@ public class PlayerControlsPanel extends JPanel {
         button.setMargin(new Insets(10, 10, 10, 10)); // Márgenes internos del botón
         return button;
     }
-    /*public class Main {
-        public static void main(String[] args) {
-            // Ejecutar la interfaz gráfica en el hilo de despacho de eventos
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    // Crear una instancia de MusicPlayerUI y hacerla visible
-                    MusicPlayerUI playerUI = new MusicPlayerUI();
-                    playerUI.setVisible(true);
-                }
-            });
-        }
-    }*/
 }

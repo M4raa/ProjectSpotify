@@ -1,5 +1,6 @@
 package jpaswing.projectspotiy.ui;
 
+import jpaswing.projectspotiy.service.Globals;
 import jpaswing.projectspotiy.utilities.SearchMethods;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 
 public class SearchPanel extends JPanel {
 
@@ -19,56 +21,53 @@ public class SearchPanel extends JPanel {
     private DisplayPanel displayPanel;
     private JButton backButton;
     private JButton forwardButton;
+    private Stack<String> viewStack;
+    private Stack<String> forwardStack;
+    private Globals globals;
 
     public SearchPanel(DisplayPanel displayPanel) {
+        viewStack = new Stack<>();
+        forwardStack = new Stack<>();
         this.displayPanel = displayPanel;
         this.searchMethods = new SearchMethods();
+        this.globals = new Globals();
         setLayout(new GridBagLayout());
-        setBackground(new Color(248, 203, 166)); // Color de fondo gris oscuro
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Márgenes alrededor del panel
+        setBackground(new Color(248, 203, 166));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Inicialización y configuración de los botones de navegación
         //Back button
-        backButton = createNavigationButton("");
-        backButton.setPreferredSize(new Dimension(30, 30));
-        backButton.setBackground(new Color(255,true));
-        backButton.setBorderPainted(false);
-        ImageIcon icon = new ImageIcon("src/main/resources/icons/left-arrow.png");
-        Image image = icon.getImage();
-        Image newimg = image.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon iconEscalado = new ImageIcon(newimg);
-        backButton.setIcon(iconEscalado);
+        backButton = createNavigationButton();
+        ImageIcon backIcon = new ImageIcon("src/main/resources/icons/left-arrow.png");
+        Image backIconImage = backIcon.getImage();
+        Image backImage = backIconImage.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
+        ImageIcon backEscalatedImage = new ImageIcon(backImage);
+        backButton.setIcon(backEscalatedImage);
 
         //Back Button Listener
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                performSearch();
+                displayPanel.lastPanel();
             }
         });
-
+        add(backButton);
 
         //Forward button
-        forwardButton = createNavigationButton("");
-        forwardButton.setPreferredSize(new Dimension(30, 30));
-        forwardButton.setBackground(new Color(255,true));
-        forwardButton.setBorderPainted(false);
-        ImageIcon icon1 = new ImageIcon("src/main/resources/icons/right-arrow.png");
-        Image image1 = icon1.getImage();
-        Image newimg1 = image1.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon iconEscalado1 = new ImageIcon(newimg1);
-        forwardButton.setIcon(iconEscalado1);
+        forwardButton = createNavigationButton();
+        ImageIcon forwardIcon = new ImageIcon("src/main/resources/icons/right-arrow.png");
+        Image forwardIconImage = forwardIcon.getImage();
+        Image forwardImage = forwardIconImage.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
+        ImageIcon forwardEscalatedImage = new ImageIcon(forwardImage);
+        forwardButton.setIcon(forwardEscalatedImage);
 
         //Forward Button Listener
         forwardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                performSearch();
+                displayPanel.nextPanel();
             }
         });
-
-        // Añadir los botones de navegación al panel de búsqueda con un espacio entre ellos
-        add(backButton);
         add(forwardButton);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -127,14 +126,12 @@ public class SearchPanel extends JPanel {
         return panel;
     }
     // Método para crear botones de navegación
-    private JButton createNavigationButton(String text) {
-        JButton button = new JButton(text);
-        button.setBackground(new Color(220, 220, 220)); // Color de fondo pastel claro
-        button.setForeground(Color.BLACK); // Color del texto negro
-        button.setFocusPainted(false); // Elimina el borde al ganar el foco
-        button.setBorderPainted(false); // Elimina el borde
-        button.setFont(new Font("Arial", Font.PLAIN, 14)); // Fuente Arial, tamaño 14
-        button.setPreferredSize(new Dimension(40, 30)); // Tamaño preferido
+    private JButton createNavigationButton() {
+        JButton button = new JButton();
+        button.setPreferredSize(new Dimension(30, 30));
+        button.setBackground(new Color(255,true));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
         return button;
     }
 

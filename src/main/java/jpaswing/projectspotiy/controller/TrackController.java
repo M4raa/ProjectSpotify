@@ -2,6 +2,7 @@ package jpaswing.projectspotiy.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import jpaswing.projectspotiy.entityContent.SpotifyResponse.TrackIdSearch;
 import jpaswing.projectspotiy.entityContent.entity.Album;
@@ -43,6 +44,13 @@ public class TrackController {
         JsonObject js = UrlConnection.getUrlConnection(uri);
         Gson gson = new Gson();
         return gson.fromJson(js, Track.class);
+    }
+    public JsonArray trackJsonResponse(JsonObject jsonResponse) {
+        JsonArray trackArray = new JsonArray();
+        for (JsonElement jsonElement : jsonResponse.get("tracks").getAsJsonArray()) {
+            trackArray.add(jsonElement);
+        }
+        return trackArray;
     }
 
 }

@@ -6,6 +6,8 @@ import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Stack;
 
 @Service
@@ -14,25 +16,7 @@ public class Globals {
     private Artist currentArtist;
     private Track currentTrack;
     private Playlist currentPlaylist;
-    private Stack<String> viewStack;
-    private Stack<String> forwardStack;
-
-
-    public Stack<String> getViewStack() {
-        return viewStack;
-    }
-
-    public void setViewStack(Stack<String> viewStack) {
-        this.viewStack = viewStack;
-    }
-
-    public Stack<String> getForwardStack() {
-        return forwardStack;
-    }
-
-    public void setForwardStack(Stack<String> forwardStack) {
-        this.forwardStack = forwardStack;
-    }
+    private String currentScreen;
 
     public Album getCurrentAlbum() {
         return currentAlbum;
@@ -64,6 +48,14 @@ public class Globals {
 
     public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
+    }
+
+    public String getCurrentScreen() {
+        return currentScreen;
+    }
+
+    public void setCurrentScreen(String currentScreen) {
+        this.currentScreen = currentScreen;
     }
 
 }
