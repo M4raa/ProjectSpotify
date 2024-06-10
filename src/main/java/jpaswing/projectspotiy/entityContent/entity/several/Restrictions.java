@@ -1,6 +1,13 @@
 package jpaswing.projectspotiy.entityContent.entity.several;
 
-public class Restrictions {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Restrictions implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String reason;
 
     // Getters and Setters

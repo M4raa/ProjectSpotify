@@ -1,10 +1,18 @@
 package jpaswing.projectspotiy.ui;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import jpaswing.projectspotiy.service.Globals;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class PlayerControlsPanel extends JPanel {
     private JButton previousButton, playButton, nextButton;

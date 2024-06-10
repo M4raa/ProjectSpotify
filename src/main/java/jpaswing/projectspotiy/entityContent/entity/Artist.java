@@ -5,9 +5,15 @@ import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
 import jpaswing.projectspotiy.entityContent.entity.several.Followers;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public  class Artist {
+public  class Artist implements Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @SerializedName("external_urls")
     private ExternalUrls externalUrls;
 

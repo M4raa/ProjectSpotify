@@ -9,8 +9,8 @@ public class ApiResponseHandler {
     private List<Object> current = new ArrayList<>();
     private Stack<List<Object>> backResults = new Stack<>();
     private Stack<List<Object>> forwardResults = new Stack<>();
-    private String backFile = "src/main/resources/backFileResponse.txt";
-    private String forwardFile = "src/main/resources/forwardFileResponse.txt";
+    private final String backFile = "src/main/resources/backFileResponse.obj";
+    private final String forwardFile = "src/main/resources/forwardFileResponse.obj";
 
     //Back
 
@@ -21,7 +21,7 @@ public class ApiResponseHandler {
 
     public List<Object> popBackHistory() {
         List<Object> peeked = backResults.peek();
-        saveBackStackToFile();
+        saveForwardStackToFile();
         return peeked;
     }
 

@@ -8,9 +8,14 @@ import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
 import jpaswing.projectspotiy.entityContent.entity.several.Image;
 import org.hibernate.sql.Restriction;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class Album {
+public class Album  implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @SerializedName("album_type")
     private String albumType;

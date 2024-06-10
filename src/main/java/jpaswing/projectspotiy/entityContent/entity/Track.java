@@ -6,9 +6,15 @@ import jpaswing.projectspotiy.entityContent.entity.several.ExternalIds;
 import jpaswing.projectspotiy.entityContent.entity.several.ExternalUrls;
 import org.hibernate.sql.Restriction;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class Track {
+public class Track  implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @SerializedName("album")
     private Album album;
 

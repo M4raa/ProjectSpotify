@@ -17,7 +17,7 @@ public class MusicPlayerUI extends JFrame {
     }
 
     private void initializeUI(Globals globals) {
-        setTitle("BANANAA");
+        setTitle("Copia barata de Spotify");
         setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/icons/main-icon.jpeg"));
         setSize(800, 600);
         setMinimumSize(new Dimension(600, 400)); // Tamaño mínimo
@@ -37,7 +37,7 @@ public class MusicPlayerUI extends JFrame {
         // Añadir ActionListeners a los botones de búsqueda
         searchPanel.addKeyListener(new KeyAdapter() {});
     }
-    public void startPlayerControlsPanel() {
+    public void startPlayerControlsPanel(String url) {
         if (playerControlsPanel == null) {
             playerControlsPanel = new PlayerControlsPanel(globals);
         }

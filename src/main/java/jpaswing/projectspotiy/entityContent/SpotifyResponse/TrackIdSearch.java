@@ -3,10 +3,20 @@ package jpaswing.projectspotiy.entityContent.SpotifyResponse;
 import com.google.gson.annotations.SerializedName;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class TrackIdSearch {
-    public static class Tracks {
+public class TrackIdSearch implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    public static class Tracks implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         @SerializedName("href")
         private String href;
 

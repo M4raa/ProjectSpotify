@@ -6,9 +6,14 @@ import jpaswing.projectspotiy.entityContent.entity.several.Image;
 import jpaswing.projectspotiy.entityContent.entity.several.Owner;
 import jpaswing.projectspotiy.entityContent.entity.several.PlaylistTrack.Tracks;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class Playlist {
+public class Playlist  implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @SerializedName("collaborative")
     private boolean collaborative;

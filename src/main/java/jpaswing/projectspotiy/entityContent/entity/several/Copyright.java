@@ -2,7 +2,14 @@ package jpaswing.projectspotiy.entityContent.entity.several;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Copyright {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Copyright implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @SerializedName("text")
     private String text;
 

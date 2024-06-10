@@ -18,20 +18,16 @@ import java.util.Stack;
 public class DisplayPanel extends JPanel {
     private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
+    private JScrollPane resultsPanel;
     private AlbumPanels albumPanel;
     private PlaylistPanels playlistPanel;
     private ArtistPanels artistPanel;
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private Globals globals;
-    private String currentScreen = "Results";
-    private Stack<CardLayout> currentStack;
-    private Stack<CardLayout> forwardStack;
     private ApiResponseHandler apiResponseHandler;
 
     public DisplayPanel(Globals globals) {
         this.apiResponseHandler = new ApiResponseHandler();
-        this.globals = globals;
         setLayout(new BorderLayout());
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
@@ -47,14 +43,13 @@ public class DisplayPanel extends JPanel {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        mainPanel.add(new JScrollPane(resultsList), "Results");
+        resultsPanel = new JScrollPane(resultsList);
+        mainPanel.add(resultsPanel, "Results");
         mainPanel.add(albumPanel, "AlbumPanels");
         mainPanel.add(playlistPanel, "PlaylistPanel");
         mainPanel.add(artistPanel, "ArtistPanels");
 
         add(mainPanel, BorderLayout.CENTER);
-        currentStack = new Stack<>();
-        forwardStack = new Stack<>();
 
         resultsList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -67,7 +62,6 @@ public class DisplayPanel extends JPanel {
                         globals.setCurrentArtist((Artist) originalObject);
 
                         // Actions for artist
-                        currentScreen = "artist";
                         apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentArtist()));
                         try {
                             showArtistPanels(globals.getCurrentArtist());
@@ -79,7 +73,6 @@ public class DisplayPanel extends JPanel {
                         globals.setCurrentAlbum((Album) originalObject);
 
                         // Actions for album
-                        currentScreen = "album";
                         apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentAlbum()));
                         try {
                             showAlbumPanels(globals.getCurrentAlbum());
@@ -91,14 +84,12 @@ public class DisplayPanel extends JPanel {
                         globals.setCurrentTrack((Track) originalObject);
 
                         // Actions for track
-                        currentScreen = "track";
-                        ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerControlsPanel();
+                        ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerControlsPanel(url);
 
                     } else if (originalObject instanceof Playlist) {
                         globals.setCurrentPlaylist((Playlist) originalObject);
 
                         // Actions for playlist
-                        currentScreen = "playlist";
                         apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentPlaylist()));
                         try {
                             showPlaylistPanels(globals.getCurrentPlaylist());
@@ -132,6 +123,11 @@ public class DisplayPanel extends JPanel {
         }
         apiResponseHandler.pushBackHistory(results);
     }
+    public void clearPanel() throws MalformedURLException{
+        listModel.clear();
+        cardLayout.show(mainPanel, "Results");
+    }
+
 
     private void showAlbumPanels(Album album) throws MalformedURLException {
         albumPanel.updateContent(album);
@@ -149,18 +145,10 @@ public class DisplayPanel extends JPanel {
     }
 
     public void lastPanel() {
-        if (!apiResponseHandler.isEmptyBackHistory()) {
-            apiResponseHandler.pushForwardHistory(apiResponseHandler.getCurrent());
-            apiResponseHandler.popBackHistory();
-            apiResponseHandler.setCurrent();
-        }
+        cardLayout.previous(mainPanel);
     }
 
     public void nextPanel() {
-        if (!apiResponseHandler.isEmptyBackHistory()) {
-            apiResponseHandler.pushBackHistory(apiResponseHandler.peekForwardHistory());
-            apiResponseHandler.popForwardHistory();
-            apiResponseHandler.setCurrent();
-        }
+        cardLayout.next(mainPanel);
     }
 }

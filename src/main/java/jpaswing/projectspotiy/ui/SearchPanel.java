@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Stack;
 
@@ -86,7 +87,11 @@ public class SearchPanel extends JPanel {
         trackSearchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                performSearch();
+                try {
+                    performSearch();
+                } catch (MalformedURLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -95,7 +100,16 @@ public class SearchPanel extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    performSearch();
+                    try {
+                        displayPanel.clearPanel();
+                    } catch (MalformedURLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        performSearch();
+                    } catch (MalformedURLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
@@ -135,13 +149,17 @@ public class SearchPanel extends JPanel {
         return button;
     }
 
-    private void performSearch() {
+    private void performSearch() throws MalformedURLException {
         String searchText = trackSearchField.getText();
-        try {
-            List<Object> results = searchMethods.grandSearch(searchText);
-            displayPanel.displayResults(results);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        if (searchText.isEmpty()) {
+            displayPanel.clearPanel();
+        } else {
+            try {
+                List<Object> results = searchMethods.grandSearch(searchText);
+                displayPanel.displayResults(results);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }

@@ -3,7 +3,14 @@ package jpaswing.projectspotiy.entityContent.entity.several;
 import com.google.gson.annotations.SerializedName;
 import jpaswing.projectspotiy.entityContent.entity.Track;
 
-public class TrackItem {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class TrackItem implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @SerializedName("added_at")
     private String addedAt;
 
