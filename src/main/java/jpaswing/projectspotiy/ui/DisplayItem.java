@@ -8,6 +8,9 @@ public class DisplayItem {
         this.displayText = displayText;
         this.originalObject = originalObject;
     }
+    public DisplayItem(String displayText) {
+        this.displayText = displayText;
+    }
 
     public String getDisplayText() {
         return displayText;

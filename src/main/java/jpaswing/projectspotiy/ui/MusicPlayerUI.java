@@ -35,9 +35,9 @@ public class MusicPlayerUI extends JFrame {
         // Añadir ActionListeners a los botones de búsqueda
         searchPanel.addKeyListener(new KeyAdapter() {});
     }
-    public void startPlayerUi(String url, String title, String artist, String imgUrl) {
+    public void startPlayerUi(Globals globals,String url) {
         if (playerUI == null) {
-            playerUI = new PlayerUI(globals,url, title, artist , imgUrl);
+            playerUI = new PlayerUI(globals,url);
         }
         getContentPane().add(playerUI, BorderLayout.SOUTH);
         validate();

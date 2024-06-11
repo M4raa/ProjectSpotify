@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class PlayerUI extends JPanel {
+public class PLayerUIbak extends JPanel {
     private JPanel reproductorPanel;
     private Globals globals;
     private JButton playStopButton, nextSongButton, previousSongButton;
@@ -30,7 +30,7 @@ public class PlayerUI extends JPanel {
     private DoubleProperty volume = new SimpleDoubleProperty(0.3); // Initializes 30%
     private String url;
 
-    public PlayerUI(Globals globals, String prwUrl) {
+    public PLayerUIbak(Globals globals,String prwUrl, String title, String artist, String imgUrl) {
         this.globals = globals;
         this.url = prwUrl;
         initUI();
@@ -39,7 +39,7 @@ public class PlayerUI extends JPanel {
     private void initUI() {
         setLayout(new BorderLayout());
 
-        reproductorPanel = new JPanel(new BorderLayout());
+        reproductorPanel = new JPanel();
         reproductorPanel.setBackground(new Color(248, 203, 166)); // Set background color
         reproductorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         initButtons();
@@ -78,29 +78,7 @@ public class PlayerUI extends JPanel {
         reproductorPanel.add(nextSongButton);
         reproductorPanel.add(volumeSlider);
 
-        add(reproductorPanel, BorderLayout.NORTH);
-
-        // Create panel to display song information and progress bar
-        JPanel infoPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel(globals.getCurrentTrack().getName());
-        JLabel artistLabel = new JLabel(globals.getCurrentTrack().getArtists().getFirst().getName());
-        JLabel imageLabel = new JLabel(new ImageIcon(globals.getCurrentTrack().getAlbum().getImages().getFirst().getUrl()));
-
-        // Create progress bar to display song progress
-        JProgressBar progressBar = new JProgressBar();
-        progressBar.setStringPainted(true); // Show the value as a string
-        progressBar.setMinimum(0);
-        progressBar.setMaximum(100);
-
-        // Add components to infoPanel
-        infoPanel.add(imageLabel, BorderLayout.WEST);
-        JPanel textPanel = new JPanel(new GridLayout(2, 1));
-        textPanel.add(titleLabel);
-        textPanel.add(artistLabel);
-        infoPanel.add(textPanel, BorderLayout.CENTER);
-        infoPanel.add(progressBar, BorderLayout.SOUTH);
-
-        add(infoPanel, BorderLayout.CENTER);
+        add(reproductorPanel, BorderLayout.CENTER);
 
         // JavaFX Toolkit initialization
         initFX();
@@ -123,11 +101,10 @@ public class PlayerUI extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
                     mediaPlayer.stop();
-                    playStopButton.setIcon(new ImageIcon("src/main/resources/icons/play-button.png")); // Change icon to play
                 } else {
                     try {
                         playAudio(url);
-                        playStopButton.setIcon(new ImageIcon("src/main/resources/icons/pause-button.png")); // Change icon to pause
+
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }

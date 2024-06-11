@@ -34,7 +34,7 @@ public class DisplayPanel extends JPanel{
         //Panels initialitation
         playlistPanel = new PlaylistPanels();
         artistPanel = new ArtistPanels();
-        albumPanel = new AlbumPanels();
+        albumPanel = new AlbumPanels(globals);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
@@ -78,14 +78,11 @@ public class DisplayPanel extends JPanel{
 
                         // Actions for track
                         String url = globals.getCurrentTrack().getPreviewUrl();
-                        String title = globals.getCurrentTrack().getName();
-                        String artist = globals.getCurrentArtist().getName();
-                        String track = globals.getCurrentTrack().getAlbum().getImages().getFirst().getUrl();
                         if (url == null){
                             JOptionPane.showMessageDialog(DisplayPanel.this, "No preview available for this track.", "Information", JOptionPane.INFORMATION_MESSAGE
                             );
                         } else {
-                            ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(url,title,artist,track);
+                            ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(globals,url);
                         }
 
                     } else if (originalObject instanceof Playlist) {
