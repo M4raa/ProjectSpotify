@@ -7,9 +7,9 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import jpaswing.projectspotiy.service.Globals;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,63 +21,82 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class PlayerUI extends JFrame {
+public class PlayerUI extends JPanel {
     private JPanel reproductorPanel;
     private Globals globals;
-    private JButton reproduce, nextSong, previousSong;
+    private JButton playStopButton, nextSongButton, previousSongButton;
     private JSlider volumeSlider;
     private MediaPlayer mediaPlayer;
-    private String url = globals.getCurrentTrack().getPreviewUrl();
-    private DoubleProperty volume = new SimpleDoubleProperty(0.3); // Volumen inicial al máximo
+    private DoubleProperty volume = new SimpleDoubleProperty(0.3); // Initializes 30%
+    private String url;
 
-    public PlayerUI() {
+    public PlayerUI(Globals globals,String prwUrl, String title, String artist, String imgUrl) {
+        this.globals = globals;
+        this.url = prwUrl;
         initUI();
     }
 
     private void initUI() {
-        setTitle("PLAYER");
-        setSize(800, 200);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
         reproductorPanel = new JPanel();
-        reproductorPanel.setBackground(Color.BLACK); // Establece el color de fondo negro
+        reproductorPanel.setBackground(new Color(248, 203, 166)); // Set background color
         reproductorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         initButtons();
 
-        volumeSlider = new JSlider(0, 100, 100);
-        volumeSlider.setPreferredSize(new Dimension(200, 50));
-        volumeSlider.setOpaque(false);
+        volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        volumeSlider.setBackground(new Color(236, 249, 255)); // Volume slider background color
+        volumeSlider.setForeground(Color.BLACK); // Color text
         volumeSlider.addChangeListener(e -> {
             volume.set(volumeSlider.getValue() / 100.0);
         });
 
-        reproductorPanel.add(previousSong);
-        reproductorPanel.add(reproduce);
-        reproductorPanel.add(nextSong);
+        // Convert volume indicator to a dot
+        volumeSlider.setUI(new BasicSliderUI(volumeSlider) {
+            @Override
+            protected Dimension getThumbSize() {
+                return new Dimension(10, 10); // Dot size
+            }
+
+            @Override
+            public void paintThumb(Graphics g) {
+                Rectangle thumbBounds = thumbRect;
+                int thumbX = thumbBounds.x + thumbBounds.width / 2 - 5; // Dot horizontal alignment
+                int thumbY = thumbBounds.y + thumbBounds.height / 2 - 5; // Dot vertical alignment
+                g.setColor(Color.WHITE); // Dot color
+                g.fillOval(thumbX, thumbY, 10, 10); // Dot fill
+            }
+
+            @Override
+            public void paintTrack(Graphics g) {
+                super.paintTrack(g); // JSlider fill
+            }
+        });
+
+        reproductorPanel.add(previousSongButton);
+        reproductorPanel.add(playStopButton);
+        reproductorPanel.add(nextSongButton);
         reproductorPanel.add(volumeSlider);
 
-        add(reproductorPanel);
+        add(reproductorPanel, BorderLayout.CENTER);
 
-        // Inicializa la Toolkit de JavaFX
+        // JavaFX Toolkit initialization
         initFX();
     }
 
     private void initFX() {
-        // Inicializa un JFXPanel para inicializar la Toolkit de JavaFX
+        // JFXPanel initialization for JavaFX Toolkit
         new JFXPanel();
         Platform.runLater(() -> {
-            // Este código se ejecutará en el hilo de JavaFX después de que la Toolkit esté inicializada
         });
     }
 
     private void initButtons() {
-        previousSong = createButton("src/main/resources/icons/previous.png");
-        reproduce = createButton("src/main/resources/icons/play.png");
-        nextSong = createButton("src/main/resources/icons/next.png");
+        previousSongButton = createButton("src/main/resources/icons/backward-button.png");
+        playStopButton = createButton("src/main/resources/icons/play-button.png");
+        nextSongButton = createButton("src/main/resources/icons/forward-button.png");
 
-        reproduce.setEnabled(true);
-        reproduce.addActionListener(new ActionListener() {
+        playStopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
@@ -98,11 +117,11 @@ public class PlayerUI extends JFrame {
         ImageIcon icon = new ImageIcon(iconPath);
         button.setIcon(icon);
         button.setBackground(new Color(60, 63, 65)); // Color de fondo gris oscuro
-        button.setFocusPainted(false); // Elimina el borde al ganar el foco
-        button.setBorderPainted(false); // Elimina el borde
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cambia el cursor al pasar sobre el botón
-        button.setContentAreaFilled(false); // No rellena el área del botón
-        button.setMargin(new Insets(10, 10, 10, 10)); // Márgenes internos del botón
+        button.setFocusPainted(false); // Deletes border when gains focus
+        button.setBorderPainted(false); // Border delete
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Changes cursor when hovering
+        button.setContentAreaFilled(false); // Doesn't fill area of the cursor
+        button.setMargin(new Insets(10, 10, 10, 10)); // Button inner margins
         return button;
     }
 
@@ -128,7 +147,7 @@ public class PlayerUI extends JFrame {
 
             Media media = new Media(archivoTemporal.toURI().toString());
             mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.volumeProperty().bind(volume); // Vincula el volumen del MediaPlayer con la propiedad volume
+            mediaPlayer.volumeProperty().bind(volume);
             mediaPlayer.play();
         } catch (IOException e) {
             e.printStackTrace();

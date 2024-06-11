@@ -22,16 +22,10 @@ public class SearchPanel extends JPanel {
     private DisplayPanel displayPanel;
     private JButton backButton;
     private JButton forwardButton;
-    private Stack<String> viewStack;
-    private Stack<String> forwardStack;
-    private Globals globals;
 
     public SearchPanel(DisplayPanel displayPanel) {
-        viewStack = new Stack<>();
-        forwardStack = new Stack<>();
         this.displayPanel = displayPanel;
         this.searchMethods = new SearchMethods();
-        this.globals = new Globals();
         setLayout(new GridBagLayout());
         setBackground(new Color(248, 203, 166));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -77,11 +71,10 @@ public class SearchPanel extends JPanel {
         gbc.weightx = 1;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
-        // Configuración de cada conjunto de campo de búsqueda y botón
         trackSearchField = createSearchField("");
         trackSearchButton = createSearchButton("Search");
 
-        // Añadir los componentes al panel
+        // Add components to panel
         add(createSearchPanel(trackSearchField, trackSearchButton), gbc);
 
         trackSearchButton.addActionListener(new ActionListener() {
@@ -139,7 +132,7 @@ public class SearchPanel extends JPanel {
         panel.add(searchButton, BorderLayout.EAST);
         return panel;
     }
-    // Método para crear botones de navegación
+    // Navigation buttons creation
     private JButton createNavigationButton() {
         JButton button = new JButton();
         button.setPreferredSize(new Dimension(30, 30));

@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class DisplayPanel extends JPanel {
+public class DisplayPanel extends JPanel{
     private JList<DisplayItem> resultsList;
     private DefaultListModel<DisplayItem> listModel;
     private JScrollPane resultsPanel;
@@ -84,7 +84,16 @@ public class DisplayPanel extends JPanel {
                         globals.setCurrentTrack((Track) originalObject);
 
                         // Actions for track
-                        ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerControlsPanel(url);
+                        String url = globals.getCurrentTrack().getPreviewUrl();
+                        String title = globals.getCurrentTrack().getName();
+                        String artist = globals.getCurrentArtist().getName();
+                        String track = globals.getCurrentTrack().getAlbum().getImages().getFirst().getUrl();
+                        if (url == null){
+                            JOptionPane.showMessageDialog(DisplayPanel.this, "No preview available for this track.", "Information", JOptionPane.INFORMATION_MESSAGE
+                            );
+                        } else {
+                            ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(url,title,artist,track);
+                        }
 
                     } else if (originalObject instanceof Playlist) {
                         globals.setCurrentPlaylist((Playlist) originalObject);
@@ -121,7 +130,6 @@ public class DisplayPanel extends JPanel {
                 listModel.addElement(new DisplayItem("Playlist - " + playlist.getName(), playlist));
             }
         }
-        apiResponseHandler.pushBackHistory(results);
     }
     public void clearPanel() throws MalformedURLException{
         listModel.clear();

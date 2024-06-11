@@ -2,7 +2,6 @@ package jpaswing.projectspotiy.ui;
 
 
 import jpaswing.projectspotiy.service.Globals;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -10,7 +9,7 @@ import java.awt.event.KeyAdapter;
 public class MusicPlayerUI extends JFrame {
     private SearchPanel searchPanel;
     private DisplayPanel displayPanel;
-    private PlayerControlsPanel playerControlsPanel;
+    private PlayerUI playerUI;
     private Globals globals;
     public MusicPlayerUI(Globals globals) {
         initializeUI(globals);
@@ -24,12 +23,11 @@ public class MusicPlayerUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
-        // Inicializar paneles
+        // Initialize panels
         displayPanel = new DisplayPanel(globals);
         searchPanel = new SearchPanel(displayPanel);
-        playerControlsPanel = new PlayerControlsPanel(globals);
 
-        // Añadir los paneles a la ventana
+        // Add panels to the window
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(searchPanel, BorderLayout.NORTH);
         getContentPane().add(displayPanel, BorderLayout.CENTER);
@@ -37,11 +35,11 @@ public class MusicPlayerUI extends JFrame {
         // Añadir ActionListeners a los botones de búsqueda
         searchPanel.addKeyListener(new KeyAdapter() {});
     }
-    public void startPlayerControlsPanel(String url) {
-        if (playerControlsPanel == null) {
-            playerControlsPanel = new PlayerControlsPanel(globals);
+    public void startPlayerUi(String url, String title, String artist, String imgUrl) {
+        if (playerUI == null) {
+            playerUI = new PlayerUI(globals,url, title, artist , imgUrl);
         }
-        getContentPane().add(playerControlsPanel, BorderLayout.SOUTH);
+        getContentPane().add(playerUI, BorderLayout.SOUTH);
         validate();
         repaint();
     }
