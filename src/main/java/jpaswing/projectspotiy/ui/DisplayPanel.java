@@ -1,7 +1,6 @@
 package jpaswing.projectspotiy.ui;
 
 import jpaswing.projectspotiy.entityContent.entity.*;
-import jpaswing.projectspotiy.service.ApiResponseHandler;
 import jpaswing.projectspotiy.service.Globals;
 import jpaswing.projectspotiy.ui.Panels.AlbumPanels;
 import jpaswing.projectspotiy.ui.Panels.ArtistPanels;
@@ -11,9 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 public class DisplayPanel extends JPanel{
     private JList<DisplayItem> resultsList;
@@ -24,10 +21,8 @@ public class DisplayPanel extends JPanel{
     private ArtistPanels artistPanel;
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private ApiResponseHandler apiResponseHandler;
 
     public DisplayPanel(Globals globals) {
-        this.apiResponseHandler = new ApiResponseHandler();
         setLayout(new BorderLayout());
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
@@ -62,7 +57,6 @@ public class DisplayPanel extends JPanel{
                         globals.setCurrentArtist((Artist) originalObject);
 
                         // Actions for artist
-                        apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentArtist()));
                         try {
                             showArtistPanels(globals.getCurrentArtist());
                         } catch (IOException ex) {
@@ -73,7 +67,6 @@ public class DisplayPanel extends JPanel{
                         globals.setCurrentAlbum((Album) originalObject);
 
                         // Actions for album
-                        apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentAlbum()));
                         try {
                             showAlbumPanels(globals.getCurrentAlbum());
                         } catch (MalformedURLException ex) {
@@ -99,7 +92,6 @@ public class DisplayPanel extends JPanel{
                         globals.setCurrentPlaylist((Playlist) originalObject);
 
                         // Actions for playlist
-                        apiResponseHandler.pushBackHistory(Collections.singletonList(globals.getCurrentPlaylist()));
                         try {
                             showPlaylistPanels(globals.getCurrentPlaylist());
                         } catch (MalformedURLException ex) {
