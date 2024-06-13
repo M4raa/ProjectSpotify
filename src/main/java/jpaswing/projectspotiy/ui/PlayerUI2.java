@@ -7,7 +7,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import jpaswing.projectspotiy.entityContent.entity.Track;
 import jpaswing.projectspotiy.service.Globals;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -18,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URL;
 
-public class PlayerUI extends JPanel {
+public class PlayerUI2 extends JPanel {
     private Globals globals;
     private JButton playStopButton, nextSongButton, previousSongButton;
     private JSlider volumeSlider;
@@ -30,7 +29,7 @@ public class PlayerUI extends JPanel {
     private JLabel titleLabel, artistLabel, imageLabel;
     private Timer timer;
 
-    public PlayerUI(Globals globals, String prwUrl) {
+    public PlayerUI2(Globals globals, String prwUrl) {
         this.globals = globals;
         this.url = prwUrl;
         initUI();
@@ -135,22 +134,16 @@ public class PlayerUI extends JPanel {
     }
 
     private void initFX() {
-        new JFXPanel(); // Inicialización del JFXPanel
+        // Inicialización de JFXPanel para JavaFX Toolkit
+        new JFXPanel();
         Platform.runLater(() -> {
-            try {
-                // Crear el MediaPlayer y manejar eventos dentro de Platform.runLater
-                Media media = new Media(url);
-                mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.setOnEndOfMedia(() -> {
-                    // Manejar evento de fin de la canción aquí
-                    // Por ejemplo, cambiar el ícono a "Play" cuando la canción termine
-                    SwingUtilities.invokeLater(() -> {
-                        playStopButton.setIcon(new ImageIcon("src/main/resources/icons/play-button.png"));
-                    });
+            // Registrar un EventHandler para manejar el evento de finalización de la reproducción
+            mediaPlayer.setOnEndOfMedia(() -> {
+                // Cambiar el ícono a "Play" cuando la canción termine
+                SwingUtilities.invokeLater(() -> {
+                    playStopButton.setIcon(new ImageIcon("src/main/resources/icons/play-button.png"));
                 });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            });
         });
     }
 
@@ -208,37 +201,6 @@ public class PlayerUI extends JPanel {
             progressBar.setValue(0);
         });
     }
-
-    public void updateSong(Track track, String url) {
-        stopPlayback(); // Detener la reproducción actual si hay una canción en reproducción
-
-        try {
-            this.url = url;
-            titleLabel.setText(track.getName());
-            artistLabel.setText(track.getArtists().getFirst().getName());
-
-            // Actualizar la imagen de la canción si está disponible
-            ImageIcon imageIcon;
-            if (track.getAlbum().getImages().isEmpty()) {
-                imageIcon = null; // No hay imágenes disponibles
-                imageLabel.setIcon(null);
-                imageLabel.setText("No Image");
-            } else {
-                imageIcon = new ImageIcon(track.getAlbum().getImages().getFirst().getUrl());
-                imageLabel.setIcon(imageIcon);
-                imageLabel.setText("");
-            }
-
-            // Reiniciar la barra de progreso
-            progressBar.setValue(0);
-
-            // Reproducir la nueva canción
-            playAudio(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void stopPlayback() {
         if (mediaPlayer != null) {

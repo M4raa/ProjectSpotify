@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.Stack;
 
 public class SearchPanel extends JPanel {
 
@@ -22,61 +21,53 @@ public class SearchPanel extends JPanel {
     private DisplayPanel displayPanel;
     private JButton backButton;
     private JButton forwardButton;
+    private JPanel  navPanel;
 
     public SearchPanel(DisplayPanel displayPanel) {
         this.displayPanel = displayPanel;
         this.searchMethods = new SearchMethods();
+        this.navPanel = new JPanel();
         setLayout(new GridBagLayout());
-
         setBackground(new Color(163,196,243));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Inicialización y configuración de los botones de navegación
-        //Back button
-        backButton = createNavigationButton();
-        ImageIcon backIcon = new ImageIcon("src/main/resources/icons/left-arrow.png");
-        Image backIconImage = backIcon.getImage();
-        Image backImage = backIconImage.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon backEscalatedImage = new ImageIcon(backImage);
-        backButton.setIcon(backEscalatedImage);
+        backButton = createNavigationButton("src/main/resources/icons/left-arrow.png");
+        forwardButton = createNavigationButton("src/main/resources/icons/right-arrow.png");
 
-        //Back Button Listener
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayPanel.lastPanel();
-            }
-        });
-        add(backButton);
+        // Panel para contener los botones de navegación
+        navPanel.setBackground(new Color(163, 196, 243)); // Fondo igual al del panel principal
+        navPanel.add(backButton);
+        navPanel.add(forwardButton);
 
-        //Forward button
-        forwardButton = createNavigationButton();
-        ImageIcon forwardIcon = new ImageIcon("src/main/resources/icons/right-arrow.png");
-        Image forwardIconImage = forwardIcon.getImage();
-        Image forwardImage = forwardIconImage.getScaledInstance(25,25,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon forwardEscalatedImage = new ImageIcon(forwardImage);
-        forwardButton.setIcon(forwardEscalatedImage);
-
-        //Forward Button Listener
-       forwardButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayPanel.nextPanel();
-            }
-        });
-        add(forwardButton);
-
+        // Configuración del GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 5, 0, 5); // Espacio entre los componentes
-        gbc.weightx = 1;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.weightx = 0;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
 
+        // Añadir el panel de navegación en la primera celda
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(navPanel, gbc);
+
+        // Configuración del campo de búsqueda y el botón de búsqueda
         trackSearchField = createSearchField("");
         trackSearchButton = createSearchButton("Search");
+        trackSearchButton.setPreferredSize(new Dimension(80, 30)); // Ajusta el tamaño del botón
+        trackSearchButton.setHorizontalTextPosition(SwingConstants.LEFT);
 
-        // Add components to panel
-        add(createSearchPanel(trackSearchField, trackSearchButton), gbc);
+        // Panel para contener el campo de búsqueda y el botón
+        JPanel searchPanel = createSearchPanel(trackSearchField, trackSearchButton);
+
+        // Añadir el panel de búsqueda en la segunda celda de la misma fila
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(searchPanel, gbc);
 
         trackSearchButton.addActionListener(new ActionListener() {
             @Override
@@ -123,7 +114,8 @@ public class SearchPanel extends JPanel {
         button.setBackground(new Color(163,196,243)); // Color de fondo pastel claro
         button.setFocusPainted(false); // Elimina el borde al ganar el foco
         button.setFont(new Font("Arial", Font.PLAIN, 14)); // Fuente Arial, tamaño 14
-        button.setPreferredSize(new Dimension(75, 30)); // Tamaño preferido
+        button.setPreferredSize(new Dimension(80, 30)); // Tamaño preferido
+        button.setHorizontalTextPosition(SwingConstants.LEFT);
         return button;
     }
 
@@ -133,13 +125,31 @@ public class SearchPanel extends JPanel {
         panel.add(searchButton, BorderLayout.EAST);
         return panel;
     }
-    // Navigation buttons creation
-    private JButton createNavigationButton() {
+
+    private JButton createNavigationButton(String iconPath) {
         JButton button = new JButton();
         button.setPreferredSize(new Dimension(30, 30));
-        button.setBackground(new Color(0,true));
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
+        button.setBackground(new Color(0, true)); // Ajusta el fondo transparente según sea necesario
+
+        ImageIcon icon = new ImageIcon(iconPath);
+        Image image = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        button.setIcon(new ImageIcon(image));
+        button.setRolloverIcon(new ImageIcon(image)); // Asegura que el rollover use la misma imagen
+
+        button.setFocusPainted(false); // Evita que se muestre el borde al enfocarse
+        button.setContentAreaFilled(false); // Evita que se pinte el fondo
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (button == backButton) {
+                    displayPanel.lastPanel();
+                } else if (button == forwardButton) {
+                    displayPanel.nextPanel();
+                }
+            }
+        });
+
         return button;
     }
 

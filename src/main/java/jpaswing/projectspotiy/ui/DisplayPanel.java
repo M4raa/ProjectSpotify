@@ -21,6 +21,7 @@ public class DisplayPanel extends JPanel{
     private ArtistPanels artistPanel;
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private PlayerUI playerUI;
 
     public DisplayPanel(Globals globals) {
         setLayout(new BorderLayout());
@@ -74,16 +75,33 @@ public class DisplayPanel extends JPanel{
                         }
 
                     } else if (originalObject instanceof Track) {
-                        globals.setCurrentTrack((Track) originalObject);
 
-                        // Actions for track
+                        Track selectedTrack = (Track) originalObject;
+                        globals.setCurrentTrack(selectedTrack);
+
+                        // Actualizar PlayerUI con la nueva canción
+                        PlayerUI playerUI = getPlayerUIInstance();
+                        if (playerUI != null) {
+                            playerUI.updateSong(selectedTrack, selectedTrack.getPreviewUrl());
+                        } else {
+                            Thread thread = new Thread(() -> {
+                                ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(globals, selectedTrack.getPreviewUrl());
+                            });
+                            thread.start();
+                        }
+
+                        /*globals.setCurrentTrack((Track) originalObject);
+
                         String url = globals.getCurrentTrack().getPreviewUrl();
                         if (url == null){
                             JOptionPane.showMessageDialog(DisplayPanel.this, "No preview available for this track.", "Information", JOptionPane.INFORMATION_MESSAGE
                             );
                         } else {
-                            ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(globals,url);
-                        }
+                            Thread thread = new Thread(() -> {
+                                ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(globals,url);
+                            });
+                            thread.start();
+                        }*/
 
                     } else if (originalObject instanceof Playlist) {
                         globals.setCurrentPlaylist((Playlist) originalObject);
@@ -120,9 +138,11 @@ public class DisplayPanel extends JPanel{
             }
         }
     }
+
     public void clearPanel() throws MalformedURLException{
         listModel.clear();
         cardLayout.show(mainPanel, "Results");
+        playerUI.stopPlayback();
     }
 
 
@@ -139,6 +159,15 @@ public class DisplayPanel extends JPanel{
     private void showArtistPanels(Artist artist) throws IOException {
         artistPanel.updateContent(artist);
         cardLayout.show(mainPanel, "ArtistPanels");
+    }
+    private PlayerUI getPlayerUIInstance() {
+        Component[] components = mainPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof PlayerUI) {
+                return (PlayerUI) component;
+            }
+        }
+        return null;
     }
 
     public void lastPanel() {
