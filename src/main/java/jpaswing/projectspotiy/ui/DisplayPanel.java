@@ -27,8 +27,8 @@ public class DisplayPanel extends JPanel{
         listModel = new DefaultListModel<>();
         resultsList = new JList<>(listModel);
         resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        resultsList.setForeground(Color.BLACK);
-        resultsList.setBackground(new Color(236, 249, 255));
+        resultsList.setForeground(new Color(43,58,103));//Text color
+        resultsList.setBackground(new Color(232,241,250));
         resultsList.setBorder(BorderFactory.createEmptyBorder());
 
         //Panels initialitation

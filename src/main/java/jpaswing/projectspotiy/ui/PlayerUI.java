@@ -40,13 +40,13 @@ public class PlayerUI extends JPanel {
         setLayout(new BorderLayout());
 
         reproductorPanel = new JPanel(new BorderLayout());
-        reproductorPanel.setBackground(new Color(248, 203, 166)); // Set background color
+        reproductorPanel.setBackground(new Color(163,196,243)); // Set background color
         reproductorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         initButtons();
 
         volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
         volumeSlider.setBackground(new Color(236, 249, 255)); // Volume slider background color
-        volumeSlider.setForeground(Color.BLACK); // Color text
+        volumeSlider.setForeground(new Color(43,58,103)); // Color text
         volumeSlider.addChangeListener(e -> {
             volume.set(volumeSlider.getValue() / 100.0);
         });
@@ -84,7 +84,7 @@ public class PlayerUI extends JPanel {
         JPanel infoPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel(globals.getCurrentTrack().getName());
         JLabel artistLabel = new JLabel(globals.getCurrentTrack().getArtists().getFirst().getName());
-        JLabel imageLabel = new JLabel(new ImageIcon(globals.getCurrentTrack().getAlbum().getImages().getFirst().getUrl()));
+        //JLabel imageLabel = new JLabel(new ImageIcon(globals.getCurrentTrack().getAlbum().getImages().getFirst().getUrl()));
 
         // Create progress bar to display song progress
         JProgressBar progressBar = new JProgressBar();
@@ -93,7 +93,7 @@ public class PlayerUI extends JPanel {
         progressBar.setMaximum(100);
 
         // Add components to infoPanel
-        infoPanel.add(imageLabel, BorderLayout.WEST);
+        //infoPanel.add(imageLabel, BorderLayout.WEST);
         JPanel textPanel = new JPanel(new GridLayout(2, 1));
         textPanel.add(titleLabel);
         textPanel.add(artistLabel);
