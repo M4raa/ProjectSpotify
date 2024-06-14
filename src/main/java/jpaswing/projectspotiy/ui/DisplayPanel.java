@@ -80,15 +80,15 @@ public class DisplayPanel extends JPanel{
                         globals.setCurrentTrack(selectedTrack);
 
                         // Actualizar PlayerUI con la nueva canción
-                        PlayerUI playerUI = getPlayerUIInstance();
+                        /*PlayerUI playerUI = getPlayerUIInstance();
                         if (playerUI != null) {
                             playerUI.updateSong(selectedTrack, selectedTrack.getPreviewUrl());
-                        } else {
+                        } else {*/
                             Thread thread = new Thread(() -> {
                                 ((MusicPlayerUI) SwingUtilities.getWindowAncestor(DisplayPanel.this)).startPlayerUi(globals, selectedTrack.getPreviewUrl());
                             });
                             thread.start();
-                        }
+                        /*}*/
 
                         /*globals.setCurrentTrack((Track) originalObject);
 
@@ -142,7 +142,9 @@ public class DisplayPanel extends JPanel{
     public void clearPanel() throws MalformedURLException{
         listModel.clear();
         cardLayout.show(mainPanel, "Results");
-        playerUI.stopPlayback();
+        if (!(playerUI == null)){
+            playerUI.stopPlayback();
+        }
     }
 
 

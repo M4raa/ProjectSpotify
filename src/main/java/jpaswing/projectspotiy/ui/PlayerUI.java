@@ -23,7 +23,7 @@ public class PlayerUI extends JPanel {
     private JButton playStopButton, nextSongButton, previousSongButton;
     private JSlider volumeSlider;
     private MediaPlayer mediaPlayer;
-    private DoubleProperty volume = new SimpleDoubleProperty(0.3); // Inicializa el volumen al 30%
+    protected DoubleProperty volume = new SimpleDoubleProperty(0.3); // Inicializa el volumen al 30%
     private String url;
 
     private JProgressBar progressBar;
