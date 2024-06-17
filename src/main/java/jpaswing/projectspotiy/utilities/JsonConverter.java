@@ -96,12 +96,4 @@ public class JsonConverter {
         }
         return playlistsIds;
     }
-    /*public static List<Playlist> playlistConverter(JsonArray playlists) throws IOException {
-        List<Playlist> playlistList = new ArrayList<>();
-        Gson gson = new Gson();
-        for (int i = 0; i < playlists.size(); i++) {
-            playlistList.add(gson.fromJson(playlists.get(i), Playlist.class));
-        }
-        return playlistList;
-    }*/
 }
