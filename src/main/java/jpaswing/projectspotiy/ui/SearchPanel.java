@@ -22,6 +22,7 @@ public class SearchPanel extends JPanel {
     private JButton backButton;
     private JButton forwardButton;
     private JPanel  navPanel;
+    private JLabel loadingLabel;
 
     public SearchPanel(DisplayPanel displayPanel) {
         this.displayPanel = displayPanel;
@@ -68,6 +69,15 @@ public class SearchPanel extends JPanel {
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(searchPanel, gbc);
+
+        //Gif
+        loadingLabel = new JLabel(new ImageIcon("src/main/resources/icons/load.gif"));
+        loadingLabel.setVisible(false); // Inicialmente oculto
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 1;
+        gbc.insets = new Insets(10, 0, 0, 0); // Añadir espacio superior para separación
+        add(loadingLabel, gbc);
 
         trackSearchButton.addActionListener(new ActionListener() {
             @Override
@@ -157,13 +167,30 @@ public class SearchPanel extends JPanel {
         String searchText = trackSearchField.getText();
         if (searchText.isEmpty()) {
             displayPanel.clearPanel();
-        } else {
-            try {
-                List<Object> results = searchMethods.grandSearch(searchText);
-                displayPanel.displayResults(results);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
         }
+        // Mostrar el GIF de carga
+        loadingLabel.setVisible(true);
+
+        SwingWorker<List<Object>, Void> worker = new SwingWorker<List<Object>, Void>() {
+            @Override
+            protected List<Object> doInBackground() throws Exception {
+                return searchMethods.grandSearch(searchText);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Object> results = get();
+                    displayPanel.displayResults(results);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // Ocultar el GIF de carga
+                    loadingLabel.setVisible(false);
+                }
+            }
+        };
+
+        worker.execute();
     }
 }

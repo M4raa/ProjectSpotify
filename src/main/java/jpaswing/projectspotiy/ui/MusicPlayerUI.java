@@ -39,6 +39,7 @@ public class MusicPlayerUI extends JFrame {
         if (playerUI == null) {
             playerUI = new PlayerUI(globals,url);
         }
+
         getContentPane().add(playerUI, BorderLayout.SOUTH);
         validate();
         repaint();
