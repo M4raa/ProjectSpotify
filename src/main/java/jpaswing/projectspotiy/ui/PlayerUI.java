@@ -86,7 +86,7 @@ public class PlayerUI extends JPanel {
         infoPanel.add(progressBar, BorderLayout.CENTER);
 
         // Imagen de la canción (opcional, a la izquierda del panel de información)
-        ImageIcon imageIcon;
+        /*ImageIcon imageIcon;
         if (globals.getCurrentTrack().getAlbum().getImages().isEmpty()) {
             imageIcon = null; // No hay imágenes disponibles
         } else {
@@ -98,7 +98,7 @@ public class PlayerUI extends JPanel {
         } else {
             imageLabel = new JLabel(imageIcon);
         }
-        infoPanel.add(imageLabel, BorderLayout.WEST);
+        infoPanel.add(imageLabel, BorderLayout.WEST);*/
 
         add(infoPanel, BorderLayout.CENTER);
 
