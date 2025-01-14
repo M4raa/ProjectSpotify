@@ -33,8 +33,8 @@ public class DisplayPanel extends JPanel{
         resultsList.setBorder(BorderFactory.createEmptyBorder());
 
         //Panels initialitation
-        playlistPanel = new PlaylistPanels();
-        artistPanel = new ArtistPanels();
+        playlistPanel = new PlaylistPanels(globals);
+        artistPanel = new ArtistPanels(globals);
         albumPanel = new AlbumPanels(globals);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);

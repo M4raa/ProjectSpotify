@@ -4,7 +4,9 @@ import jpaswing.projectspotiy.controller.ArtistsController;
 import jpaswing.projectspotiy.entityContent.entity.Album;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
+import jpaswing.projectspotiy.service.Globals;
 import jpaswing.projectspotiy.ui.DisplayItem;
+import jpaswing.projectspotiy.ui.MusicPlayerUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,8 +24,10 @@ public class ArtistPanels extends JPanel {
     private DefaultListModel<DisplayItem> listModel1;
     private JLabel artistImage;
     private JLabel albumArtistsLabel;
+    private Globals globals;
 
-    public ArtistPanels() {
+    public ArtistPanels(Globals globals) {
+        this.globals = globals;
         this.artistsController = new ArtistsController();
         setLayout(new GridLayout(1, 2)); // Display panels side by side
 
@@ -63,8 +67,13 @@ public class ArtistPanels extends JPanel {
     private void updateTrackList(List<Track> tracks) {
         listModel1.clear();
         for (Track track : tracks) {
-            listModel1.addElement(new DisplayItem(track.getName(), track.getArtists()));
+            listModel1.addElement(new DisplayItem(track.getName(), track));
         }
+        tracksList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                handleTrackSelection();
+            }
+        });
     }
 
     private void updateArtistImage(String imageUrl) {
@@ -77,6 +86,22 @@ public class ArtistPanels extends JPanel {
             e.printStackTrace();
             artistImage.setIcon(null);
             artistImage.setText("NO ARTIST IMAGE");
+        }
+    }
+    private void handleTrackSelection() {
+        int selectedIndex = tracksList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            DisplayItem selectedItem = listModel1.getElementAt(selectedIndex);
+            Object originalObject = selectedItem.getOriginalObject();
+            if (originalObject instanceof Track) {
+                globals.setCurrentTrack((Track) originalObject);
+                String url = globals.getCurrentTrack().getPreviewUrl();
+                if (url == null) {
+                    JOptionPane.showMessageDialog(this, "No preview available for this track.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    ((MusicPlayerUI) SwingUtilities.getWindowAncestor(this)).startPlayerUi(globals,url);
+                }
+            }
         }
     }
 }

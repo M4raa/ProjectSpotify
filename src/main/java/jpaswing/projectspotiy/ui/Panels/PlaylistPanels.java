@@ -3,7 +3,10 @@ package jpaswing.projectspotiy.ui.Panels;
 import jpaswing.projectspotiy.entityContent.entity.Playlist;
 import jpaswing.projectspotiy.entityContent.entity.Artist;
 import jpaswing.projectspotiy.entityContent.entity.Track;
+import jpaswing.projectspotiy.entityContent.entity.several.Owner;
+import jpaswing.projectspotiy.service.Globals;
 import jpaswing.projectspotiy.ui.DisplayItem;
+import jpaswing.projectspotiy.ui.MusicPlayerUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,8 +23,10 @@ public class PlaylistPanels extends JPanel {
     private DefaultListModel<DisplayItem> listModel1;
     private JLabel playlistImage;
     private JLabel playlistArtistsLabel;
+    private Globals globals;
 
-    public PlaylistPanels() {
+    public PlaylistPanels(Globals globals) {
+        this.globals = globals;
         setLayout(new GridLayout(1, 2)); // Display panels side by side
 
         //PlaylistPanel1
@@ -53,16 +58,23 @@ public class PlaylistPanels extends JPanel {
     }
 
     public void updateContent(Playlist playlist) {
-        //updateTrackList(playlist.getPlaylistTracks().getItems().forEach(trackItem -> trackItem.getTrack()));
+        List <Track> tracks = new ArrayList<>();
+        playlist.getPlaylistTracks().getItems().forEach(trackItem -> tracks.add(trackItem.getTrack()));
+        updateTrackList(tracks);
         updateplaylistImage(playlist.getImages().getFirst().getUrl());
-        //updateplaylistArtists(playlist.getArtists());
+        updateplaylistArtists(playlist.getOwner());
     }
 
     private void updateTrackList(List<Track> tracks) {
         listModel1.clear();
         for (Track track : tracks) {
-            listModel1.addElement(new DisplayItem(track.getName(), track.getArtists()));
+            listModel1.addElement(new DisplayItem(track.getName(), track));
         }
+        resultsList1.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                handleTrackSelection();
+            }
+        });
     }
 
     private void updateplaylistImage(String imageUrl) {
@@ -77,12 +89,23 @@ public class PlaylistPanels extends JPanel {
             playlistImage.setText("NO playlist IMAGE");
         }
     }
-
-    private void updateplaylistArtists(List<Artist> artists) {
-        List<String> artistNames = new ArrayList<>();
-        for (Artist artist : artists) {
-            artistNames.add(artist.getName());
+    private void handleTrackSelection() {
+        int selectedIndex = resultsList1.getSelectedIndex();
+        if (selectedIndex != -1) {
+            DisplayItem selectedItem = listModel1.getElementAt(selectedIndex);
+            Object originalObject = selectedItem.getOriginalObject();
+            if (originalObject instanceof Track) {
+                globals.setCurrentTrack((Track) originalObject);
+                String url = globals.getCurrentTrack().getPreviewUrl();
+                if (url == null) {
+                    JOptionPane.showMessageDialog(this, "No preview available for this track.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    ((MusicPlayerUI) SwingUtilities.getWindowAncestor(this)).startPlayerUi(globals,url);
+                }
+            }
         }
-        playlistArtistsLabel.setText("Artists: " + artistNames);
+    }
+    private void updateplaylistArtists(Owner owner) {
+        playlistArtistsLabel.setText("Owner: " + owner.getDisplayName());
     }
 }
